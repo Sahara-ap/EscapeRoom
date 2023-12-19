@@ -1,5 +1,4 @@
 
-
 function MainPage(): JSX.Element {
   return (
     <div className="wrapper">
