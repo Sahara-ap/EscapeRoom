@@ -41,7 +41,7 @@ function MainPage(): JSX.Element {
                 <legend className="visually-hidden">Тематика</legend>
                 <ul className="filter__list">
                   <li className="filter__item">
-                    <input type="radio" name="type" id="all" checked />
+                    <input type="radio" name="type" id="all" defaultChecked />
                     <label className="filter__label" htmlFor="all">
                       <svg className="filter__icon" width="26" height="30" aria-hidden="true">
                         <use xlinkHref="#icon-all-quests"></use>
@@ -94,7 +94,7 @@ function MainPage(): JSX.Element {
                 <legend className="visually-hidden">Сложность</legend>
                 <ul className="filter__list">
                   <li className="filter__item">
-                    <input type="radio" name="level" id="any" checked />
+                    <input type="radio" name="level" id="any" defaultChecked />
                     <label className="filter__label" htmlFor="any"><span className="filter__label-text">Любой</span>
                     </label>
                   </li>
