@@ -21,32 +21,13 @@ function App(): JSX.Element {
           <Route path={AppRoute.Main} element={<MainPage />} />
           <Route path={AppRoute.Contacts} element={<ContactsPage />} />
           <Route path={AppRoute.Login} element={<LoginPage />} />
-          <Route path={AppRoute.Quest} element={<QuestPage />} />
           <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
-
-
-          <Route
-            path={AppRoute.MyQuests}
-            element={
-              <PrivateRoute authStatus={AuthStatus.NoAuth} >
-                <MyQuestsPage />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path={AppRoute.Booking}
-            element={
-              <PrivateRoute authStatus={AuthStatus.NoAuth} >
-                <BookingPage />
-              </PrivateRoute>
-            }
-          />
+          <Route path={AppRoute.Quest} element={<QuestPage />} />
+          <Route path={`${AppRoute.MyQuests}/:id`} element={<PrivateRoute authStatus={AuthStatus.Auth}><MyQuestsPage /></PrivateRoute>} />
+          <Route path={`${AppRoute.Booking}/:id`} element={<PrivateRoute authStatus={AuthStatus.Auth}><BookingPage /></PrivateRoute>} />
         </Routes>
       </BrowserRouter>
-
-
-    </HelmetProvider>
+    </HelmetProvider >
   );
 }
 

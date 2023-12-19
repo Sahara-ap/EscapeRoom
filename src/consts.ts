@@ -5,7 +5,7 @@ enum AppRoute {
   Main = '/',
   MyQuests = '/my-quests',
   Quest = '/quest',
-  NotFound = '/404'
+  NotFound = '*'
 }
 
 enum AuthStatus {
