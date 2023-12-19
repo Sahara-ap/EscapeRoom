@@ -8,6 +8,13 @@ enum AppRoute {
   NotFound = '/404'
 }
 
+enum AuthStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN'
+}
+
 export {
   AppRoute,
+  AuthStatus,
 };

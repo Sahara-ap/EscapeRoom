@@ -9,7 +9,9 @@ import { MyQuestsPage } from './pages/my-quests-page/my-quests-page';
 import { QuestPage } from './pages/quest-page/quest-page';
 import { NotFoundPage } from './pages/404-page/404-page';
 
-import { AppRoute } from './consts';
+import { PrivateRoute } from './components/private-route/private-route';
+
+import { AppRoute, AuthStatus } from './consts';
 
 function App(): JSX.Element {
   return (
@@ -17,12 +19,29 @@ function App(): JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route path={AppRoute.Main} element={<MainPage />} />
-          <Route path={AppRoute.Booking} element={<BookingPage />} />
           <Route path={AppRoute.Contacts} element={<ContactsPage />} />
           <Route path={AppRoute.Login} element={<LoginPage />} />
-          <Route path={AppRoute.MyQuests} element={<MyQuestsPage />} />
           <Route path={AppRoute.Quest} element={<QuestPage />} />
           <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
+
+
+          <Route
+            path={AppRoute.MyQuests}
+            element={
+              <PrivateRoute authStatus={AuthStatus.NoAuth} >
+                <MyQuestsPage />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path={AppRoute.Booking}
+            element={
+              <PrivateRoute authStatus={AuthStatus.NoAuth} >
+                <BookingPage />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
 
