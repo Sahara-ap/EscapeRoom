@@ -24,8 +24,9 @@ function App(): JSX.Element {
             <Route path={AppRoute.Contacts} element={<ContactsPage />} />
             <Route path={AppRoute.Login} element={<LoginPage />} />
             <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
-            <Route path={AppRoute.Quest} element={<QuestPage />} />
-            <Route path={`${AppRoute.MyQuests}/:id`} element={<PrivateRoute authStatus={AuthStatus.Auth}><MyQuestsPage /></PrivateRoute>} />
+            <Route path={`${AppRoute.Quest}/:id`} element={<QuestPage />} />
+
+            <Route path={AppRoute.MyQuests} element={<PrivateRoute authStatus={AuthStatus.Auth}><MyQuestsPage /></PrivateRoute>} />
             <Route path={`${AppRoute.Booking}/:id`} element={<PrivateRoute authStatus={AuthStatus.Auth}><BookingPage /></PrivateRoute>} />
           </Route>
         </Routes>
