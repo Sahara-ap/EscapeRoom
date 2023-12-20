@@ -1,12 +1,17 @@
-import { cardList } from '../../mocks/card-list';
-
-import { AppRoute } from '../../consts';
-import { Header } from '../../components/header/header';
-import { CardList } from '../../components/card-list/card-list';
-import { TCard } from '../../types/types';
 import { useState } from 'react';
 
+import { AppRoute } from '../../consts';
+import { useAppSelector } from '../../hooks/store-hooks';
+
+import { Header } from '../../components/header/header';
+import { CardList } from '../../components/card-list/card-list';
+import { getCards } from '../../store/cards/cards-selectors';
+
+import { TCard } from '../../types/types';
+
+
 function MainPage(): JSX.Element {
+  const cardList = useAppSelector(getCards);
 
   const [cardId, setCardId] = useState('');
 
