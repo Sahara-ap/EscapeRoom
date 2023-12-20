@@ -7,9 +7,10 @@ import { TCard } from '../../types/types';
 type TCardProps = {
   card: TCard;
   cb: (cardId: TCard['id']) => void;
+  isFav?: boolean;
 }
 
-function Card({ card, cb }: TCardProps): JSX.Element {
+function Card({ card, cb, isFav }: TCardProps): JSX.Element {
   function handleCardClick() {
     cb(card.id);
   }
@@ -51,6 +52,7 @@ function Card({ card, cb }: TCardProps): JSX.Element {
             </svg>{translateLevelName(card.level)}
           </li>
         </ul>
+        {isFav && <button className="btn btn--accent btn--secondary quest-card__btn" type="button">Отменить</button>}
       </div>
     </div>
   );

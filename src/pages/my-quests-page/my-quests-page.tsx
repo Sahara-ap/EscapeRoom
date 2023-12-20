@@ -1,5 +1,7 @@
+import { CardList } from '../../components/card-list/card-list';
 import { Header } from '../../components/header/header';
 import { AppRoute } from '../../consts';
+import { cardList } from '../../mocks/card-list';
 
 function MyQuestsPage(): JSX.Element {
   return (
@@ -18,6 +20,8 @@ function MyQuestsPage(): JSX.Element {
           </div>
           <div className="cards-grid">
             <div className="quest-card">
+
+              {/* //компонент <CardList cards={cardList} cb={} /> */}
               <div className="quest-card__img">
                 <picture>
                   <source type="image/webp" srcSet="img/content/maniac/maniac-size-s.webp, img/content/maniac/maniac-size-s@2x.webp 2x" />
