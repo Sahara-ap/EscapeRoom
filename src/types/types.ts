@@ -9,7 +9,7 @@ type TCard = {
 }
 
 type TLevel = 'easy' | 'medium' | 'hard';
-type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi'
+type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi' | 'Все квесты'
 
 type TSelectedCard = {
   'id': string;
@@ -70,11 +70,21 @@ type TBookingQuestResponseInfo =
     'quest': TCard;
   }
 
+  type TFilterThemes =
+  {
+    title: string;
+    logo: string;
+    logoWidth: string;
+    id: string;
+    isChecked: boolean;
+  }
+
 export type {
   TCard,
   TSelectedCard,
   TBookingData,
   TBookingQuestPostInfo,
   TBookingQuestResponseInfo,
+  TFilterThemes,
 };
 
