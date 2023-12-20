@@ -11,7 +11,7 @@ type TCard = {
 type TLevel = 'easy' | 'medium' | 'hard';
 type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi'
 
-type SelectedCard = {
+type TSelectedCard = {
   'id': string;
   'title': string;
   'previewImg': string;
@@ -72,7 +72,7 @@ type TBookingQuestResponseInfo =
 
 export type {
   TCard,
-  SelectedCard,
+  TSelectedCard,
   TBookingData,
   TBookingQuestPostInfo,
   TBookingQuestResponseInfo,

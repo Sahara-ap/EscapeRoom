@@ -1,6 +1,6 @@
-import { SelectedCard } from '../types/types';
+import { TSelectedCard } from '../types/types';
 
-const selectedCard: SelectedCard = {
+const selectedCard: TSelectedCard = {
   'id': 'aba664c3-bdf3-4fb3-b8f3-42e007864bbf',
   'title': 'Склеп',
   'previewImg': 'https://{server-url}/static/quest/sklep.jpg',
