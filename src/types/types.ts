@@ -8,7 +8,7 @@ type TCard = {
   'peopleMinMax': [number, number?];
 }
 
-type TLevel = 'easy' | 'medium' | 'hard';
+type TLevel = 'easy' | 'medium' | 'hard' | 'any';
 type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi' | 'Все квесты'
 
 type TSelectedCard = {
@@ -70,14 +70,19 @@ type TBookingQuestResponseInfo =
     'quest': TCard;
   }
 
-  type TFilterThemes =
+type TFilterThemes =
   {
     title: string;
     logo: string;
     logoWidth: string;
     id: string;
-    isChecked: boolean;
   }
+
+type TFilterLevels = {
+  title: string;
+  id: string;
+
+}
 
 export type {
   TCard,
@@ -86,5 +91,6 @@ export type {
   TBookingQuestPostInfo,
   TBookingQuestResponseInfo,
   TFilterThemes,
+  TFilterLevels,
 };
 
