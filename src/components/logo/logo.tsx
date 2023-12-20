@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { AppRoute } from '../consts';
+import { AppRoute } from '../../consts';
 
 function Label(): JSX.Element {
   return (

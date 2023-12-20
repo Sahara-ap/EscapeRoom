@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import cn from 'classnames';
 
 import { AppRoute } from '../../consts';
-import { Logo } from '../../logo/logo';
+import { Logo } from '../logo/logo';
 
 type THeaderProps = {
   page: AppRoute;
