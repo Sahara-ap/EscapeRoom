@@ -3,7 +3,7 @@ import { AppRoute } from '../../consts';
 
 function MyQuestsPage(): JSX.Element {
   return (
-    <div className="wrapper">
+    <>
       <Header page={AppRoute.MyQuests} isExtendedNav />
       <main className="page-content decorated-page">
         <div className="decorated-page__decor" aria-hidden="true">
@@ -95,7 +95,7 @@ function MyQuestsPage(): JSX.Element {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

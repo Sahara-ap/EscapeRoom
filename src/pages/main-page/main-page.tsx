@@ -3,7 +3,7 @@ import { Header } from '../../components/header/header';
 
 function MainPage(): JSX.Element {
   return (
-    <div className="wrapper">
+    <>
 
       <Header isExtendedNav page={AppRoute.Main}/>
       <main className="page-content">
@@ -367,7 +367,7 @@ function MainPage(): JSX.Element {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

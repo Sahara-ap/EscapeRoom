@@ -3,7 +3,7 @@ import { AppRoute } from '../../consts';
 
 function BookingPage(): JSX.Element {
   return (
-    <div className="wrapper">
+    <>
       <Header page={AppRoute.Main} isExtendedNav />
       <main className="page-content decorated-page">
         <div className="decorated-page__decor" aria-hidden="true">
@@ -119,7 +119,7 @@ function BookingPage(): JSX.Element {
           </form>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

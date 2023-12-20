@@ -3,7 +3,7 @@ import { AppRoute } from '../../consts';
 
 function QuestPage(): JSX.Element {
   return (
-    <div className="wrapper">
+    <>
       <Header page={AppRoute.Quest} />
       <main className="decorated-page quest-page">
         <div className="decorated-page__decor" aria-hidden="true">
@@ -34,7 +34,7 @@ function QuestPage(): JSX.Element {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

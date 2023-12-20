@@ -3,7 +3,7 @@ import { AppRoute } from '../../consts';
 
 function ContactsPage(): JSX.Element {
   return (
-    <div className="wrapper">
+    <>
       <Header page={AppRoute.Contacts} />
       <main className="page-content decorated-page">
         <div className="decorated-page__decor" aria-hidden="true">
@@ -51,7 +51,7 @@ function ContactsPage(): JSX.Element {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

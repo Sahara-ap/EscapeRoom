@@ -3,10 +3,10 @@ import { Footer } from '../footer/footer';
 
 function Layout(): JSX.Element {
   return (
-    <>
+    <div className="wrapper">
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 }
 

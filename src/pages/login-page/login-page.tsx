@@ -3,7 +3,7 @@ import { AppRoute } from '../../consts';
 
 function LoginPage(): JSX.Element {
   return (
-    <div className="wrapper">
+    <>
       <Header page={AppRoute.Login} />
       <main className="decorated-page login">
         <div className="decorated-page__decor" aria-hidden="true">
@@ -44,7 +44,7 @@ function LoginPage(): JSX.Element {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 
