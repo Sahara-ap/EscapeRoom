@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { selectedCard } from '../../mocks/selectedCard';
 import { NameSpace } from '../../consts';
-import { fetchQuestsAction } from '../api-actions';
+import { fetchQuestsAction, fetchSelectedQuestAction } from '../api-actions';
 
 import { TSelectedCard } from '../../types/types';
 import { TCard } from '../../types/types';
@@ -14,7 +13,7 @@ type TCardsDataState = {
 
 const initialState: TCardsDataState = {
   cards: [],
-  selectedCard: selectedCard,
+  selectedCard: null,
 };
 
 const cardsDataSlice = createSlice({
@@ -25,6 +24,9 @@ const cardsDataSlice = createSlice({
     builder
       .addCase(fetchQuestsAction.fulfilled, (state, action) => {
         state.cards = action.payload;
+      })
+      .addCase(fetchSelectedQuestAction.fulfilled, (state, action) => {
+        state.selectedCard = action.payload;
       });
   }
 });

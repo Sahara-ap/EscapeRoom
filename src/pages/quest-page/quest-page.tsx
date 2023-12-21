@@ -1,14 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { AppRoute } from '../../consts';
 import { translateLevelName, translateThemeName } from '../../utils';
-import { useAppSelector } from '../../hooks/store-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 
 import { Header } from '../../components/header/header';
 import { getSelectedCard } from '../../store/cards/cards-selectors';
+import { useEffect } from 'react';
+import { fetchSelectedQuestAction } from '../../store/api-actions';
 
 function QuestPage(): JSX.Element {
+  const { id } = useParams();
+
+  const dispatch = useAppDispatch();
   const selectedQuest = useAppSelector(getSelectedCard);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchSelectedQuestAction(id));
+    }
+  }, [id, dispatch]);
+
 
   return (
     <>
