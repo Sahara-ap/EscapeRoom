@@ -1,3 +1,8 @@
+enum APIRoute {
+  Quests = '/v1/escape-room/quest',
+
+}
+
 enum AppRoute {
   Booking = '/booking',
   Contacts = '/contacts',
@@ -20,7 +25,9 @@ enum NameSpace {
   User = 'USER'
 }
 
+
 export {
+  APIRoute,
   AppRoute,
   AuthStatus,
   NameSpace,

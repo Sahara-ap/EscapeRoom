@@ -1,9 +1,11 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { TCard } from '../../types/types';
-import { TSelectedCard } from '../../types/types';
-import { cardList } from '../../mocks/card-list';
+import { createSlice } from '@reduxjs/toolkit';
+
 import { selectedCard } from '../../mocks/selectedCard';
 import { NameSpace } from '../../consts';
+import { fetchQuestsAction } from '../api-actions';
+
+import { TSelectedCard } from '../../types/types';
+import { TCard } from '../../types/types';
 
 type TCardsDataState = {
   cards: TCard[];
@@ -11,24 +13,23 @@ type TCardsDataState = {
 }
 
 const initialState: TCardsDataState = {
-  cards: cardList,
+  cards: [],
   selectedCard: selectedCard,
 };
 
 const cardsDataSlice = createSlice({
   name: NameSpace.Cards,
   initialState,
-  reducers: {
-    setCards: (state, action: PayloadAction<TCard[]>) => {
-      state.cards = action.payload;
-    }
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchQuestsAction.fulfilled, (state, action) => {
+        state.cards = action.payload;
+      });
   }
 });
 
-const {setCards} = cardsDataSlice.actions;
 
 export {
   cardsDataSlice,
-
-  setCards,
 };
