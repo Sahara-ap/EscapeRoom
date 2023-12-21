@@ -8,8 +8,8 @@ type TCard = {
   'peopleMinMax': [number, number?];
 }
 
-type TLevel = 'easy' | 'medium' | 'hard' | 'any';
-type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi' | 'Все квесты'
+type TLevel = 'easy' | 'medium' | 'hard';
+type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi';
 
 type TSelectedCard = {
   'id': string;
@@ -86,6 +86,8 @@ type TFilterLevels = {
 
 export type {
   TCard,
+  TLevel,
+  TTheme,
   TSelectedCard,
   TBookingData,
   TBookingQuestPostInfo,

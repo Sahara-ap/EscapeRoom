@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../consts';
+import { translateLevelName } from '../../utils';
 
 import { TCard } from '../../types/types';
 
@@ -13,16 +14,6 @@ type TCardProps = {
 function Card({ card, cb, isFav }: TCardProps): JSX.Element {
   function handleCardClick() {
     cb(card.id);
-  }
-
-  function translateLevelName(levelKey: TCard['level']) {
-    const level = {
-      'easy': 'легкий',
-      'medium': 'средний',
-      'hard': 'сложный',
-    };
-
-    return level[levelKey];
   }
 
   return (
