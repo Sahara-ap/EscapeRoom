@@ -3,6 +3,7 @@ import { TCard } from '../../types/types';
 import { TSelectedCard } from '../../types/types';
 import { cardList } from '../../mocks/card-list';
 import { selectedCard } from '../../mocks/selectedCard';
+import { NameSpace } from '../../consts';
 
 type TCardsDataState = {
   cards: TCard[];
@@ -15,7 +16,7 @@ const initialState: TCardsDataState = {
 };
 
 const cardsDataSlice = createSlice({
-  name: 'CARDS',
+  name: NameSpace.Cards,
   initialState,
   reducers: {
     setCards: (state, action: PayloadAction<TCard[]>) => {

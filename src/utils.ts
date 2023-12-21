@@ -1,3 +1,6 @@
+import { store } from './store';
+import { clearErrorAction } from './store/api-actions';
+import { setError } from './store/app/app-slice';
 import { TLevel, TTheme } from './types/types';
 
 function translateLevelName(levelKey: TLevel) {
@@ -27,7 +30,13 @@ function translateThemeName(themeKey: TTheme) {
   return theme[themeKey];
 }
 
+function processErrorHandle(message: string): void {
+  store.dispatch(setError(message));
+  store.dispatch(clearErrorAction());
+}
+
 export {
   translateLevelName,
   translateThemeName,
+  processErrorHandle,
 };

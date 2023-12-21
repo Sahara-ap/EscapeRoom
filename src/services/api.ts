@@ -1,15 +1,26 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import { store } from '../store';
+import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { getToken } from './token';
+import { StatusCodes } from 'http-status-codes';
+import { processErrorHandle } from '../utils';
 
 type DetailMessageError = {
   type: string;
   message: string;
 }
+
+const StatusCodesMapping: Record<number, boolean> = {
+  [StatusCodes.BAD_REQUEST]: true,
+  [StatusCodes.UNAUTHORIZED]: true,
+  [StatusCodes.NOT_FOUND]: true
+};
+
+function shouldDisplayError(response: AxiosResponse) {
+  return Boolean(StatusCodesMapping[response.status]);
+}
 const BASE_URL = 'https://grading.design.htmlacademy.pro';
 const REQUEST_TIMEOUT = 5000;
 
-function createAPI():AxiosInstance {
+function createAPI(): AxiosInstance {
   const api = axios.create({
     baseURL: BASE_URL,
     timeout: REQUEST_TIMEOUT
@@ -25,7 +36,18 @@ function createAPI():AxiosInstance {
       return config;
     });
 
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError<DetailMessageError>) => {
+      if (error.response && shouldDisplayError(error.response)) {
+        const detailMessage = error.response.data;
+        processErrorHandle(detailMessage.message);
+      }
+
+      throw error;
+    });
+
   return api;
 }
 
-export {createAPI};
+export { createAPI };

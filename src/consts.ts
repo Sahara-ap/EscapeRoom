@@ -14,7 +14,14 @@ enum AuthStatus {
   Unknown = 'UNKNOWN'
 }
 
+enum NameSpace {
+  App = 'APP',
+  Cards = 'CARDS',
+  User = 'USER'
+}
+
 export {
   AppRoute,
   AuthStatus,
+  NameSpace,
 };
