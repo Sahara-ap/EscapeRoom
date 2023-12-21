@@ -5,17 +5,19 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 
 import { Header } from '../../components/header/header';
 import { CardList } from '../../components/card-list/card-list';
-import { getCards } from '../../store/cards/cards-selectors';
+import { getCards, getHasError } from '../../store/cards/cards-selectors';
 
 import { TCard, TLevel, TTheme } from '../../types/types';
 import { FilterThemes } from '../../components/filters/filter-themes';
 import { FilterLevels } from '../../components/filters/filter-levels';
 import { fetchQuestsAction } from '../../store/api-actions';
+import ErrorPage from '../error-page/error-page';
 
 
 function MainPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const cardList = useAppSelector(getCards);
+  const hasError = useAppSelector(getHasError);
 
   const [cardId, setCardId] = useState('');
   const [theme, setTheme] = useState('all');
@@ -53,6 +55,10 @@ function MainPage(): JSX.Element {
     }
   });
 
+
+  if (hasError) {
+    return <ErrorPage/>;
+  }
 
   return (
     <>
