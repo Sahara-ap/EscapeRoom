@@ -5,6 +5,7 @@ function translateLevelName(levelKey: TLevel) {
     'easy': 'легкий',
     'medium': 'средний',
     'hard': 'сложный',
+    'any': 'любой'
   };
 
   return level[levelKey];
@@ -20,6 +21,7 @@ function translateThemeName(themeKey: TTheme) {
     'detective': 'Детектив',
     'adventures': 'Приключения',
     'sci-fi': 'sci-fi',
+    'all': 'все квесты'
   };
 
   return theme[themeKey];

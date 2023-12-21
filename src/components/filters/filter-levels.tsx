@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { TFilterLevels } from '../../types/types';
+import { TFilterLevels, TLevel } from '../../types/types';
 
-function FilterLevels(): JSX.Element {
+type TFilterLevelsProps = {
+  cb: (level: TLevel) => void;
+}
+function FilterLevels({cb}:TFilterLevelsProps): JSX.Element {
   const [selectedFilterId, setSelectedFilterId] = useState('any');
 
   const filterLevels: TFilterLevels[] = [
@@ -15,7 +18,7 @@ function FilterLevels(): JSX.Element {
     },
     {
       title: 'Средний',
-      id: 'middle',
+      id: 'medium',
     },
     {
       title: 'Сложный',
@@ -23,8 +26,9 @@ function FilterLevels(): JSX.Element {
     },
   ];
 
-  function handleFilterClick(filterId: TFilterLevels['id']) {
+  function handleFilterClick(filterId: TLevel) {
     setSelectedFilterId(filterId);
+    cb(filterId);
   }
 
   return (
@@ -40,7 +44,7 @@ function FilterLevels(): JSX.Element {
               type="radio"
               name="level"
               id={item.id}
-              checked={item.id === selectedFilterId}
+              defaultChecked={item.id === selectedFilterId}
               onClick={() => handleFilterClick(item.id)}
             />
             <label

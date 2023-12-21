@@ -8,8 +8,8 @@ type TCard = {
   'peopleMinMax': [number, number?];
 }
 
-type TLevel = 'easy' | 'medium' | 'hard';
-type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi';
+type TLevel = 'easy' | 'medium' | 'hard' | 'any' ;
+type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi' | 'all';
 
 type TSelectedCard = {
   'id': string;
@@ -73,6 +73,7 @@ type TBookingQuestResponseInfo =
 type TFilterThemes =
   {
     title: string;
+    theme: TTheme;
     logo: string;
     logoWidth: string;
     id: string;
@@ -80,8 +81,7 @@ type TFilterThemes =
 
 type TFilterLevels = {
   title: string;
-  id: string;
-
+  id: TLevel;
 }
 
 export type {

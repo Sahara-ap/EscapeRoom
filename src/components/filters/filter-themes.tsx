@@ -1,50 +1,61 @@
 import { useState } from 'react';
-import { TFilterThemes } from '../../types/types';
+import { TFilterThemes, TTheme } from '../../types/types';
 
-function FilterThemes(): JSX.Element {
+type TFilterThemesProps = {
+  cb: (theme: TTheme) => void;
+}
+
+function FilterThemes({cb}: TFilterThemesProps): JSX.Element {
   const [selectedFilterId, setSelectedFilterId] = useState('all');
 
   const filterThemes: TFilterThemes[] = [
     {
       title: 'Все квесты',
+      theme: 'all',
       logo: '#icon-all-quests',
       logoWidth: '26',
       id: 'all',
     },
     {
       title: 'Приключения',
+      theme: 'adventures',
       logo: '#icon-adventure',
       logoWidth: '36',
       id: 'adventure',
     },
     {
       title: 'Ужасы',
+      theme: 'horror',
       logo: '#icon-horror',
       logoWidth: '30',
       id: 'horror',
     },
     {
       title: 'Мистика',
+      theme: 'mystic',
       logo: '#icon-mystic',
       logoWidth: '30',
       id: 'mystic',
     },
     {
       title: 'Детектив',
+      theme: 'detective',
       logo: '#icon-detective',
       logoWidth: '40',
       id: 'detective',
     },
     {
       title: 'Sci-fi',
+      theme: 'sci-fi',
       logo: '#icon-sci-fi',
       logoWidth: '28',
       id: 'sciFi',
     },
   ];
 
-  function handleFilterClick(filterId: TFilterThemes['id']) {
+  function handleFilterClick(filterId: TFilterThemes['id'], filterTheme:TTheme) {
     setSelectedFilterId(filterId);
+    cb(filterTheme);
   }
 
   return (
@@ -57,8 +68,8 @@ function FilterThemes(): JSX.Element {
               type="radio"
               name="type"
               id={item.id}
-              checked={item.id === selectedFilterId}
-              onClick={() => handleFilterClick(item.id)}
+              defaultChecked={item.id === selectedFilterId}
+              onClick={() => handleFilterClick(item.id, item.theme)}
             />
             <label
               className="filter__label"
