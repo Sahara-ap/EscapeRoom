@@ -1,4 +1,5 @@
 import { Header } from '../../components/header/header';
+import { Map } from '../../components/map/map';
 import { AppRoute } from '../../consts';
 
 function ContactsPage(): JSX.Element {
@@ -44,10 +45,13 @@ function ContactsPage(): JSX.Element {
               </div>
             </dl>
             <div className="contacts__map">
-              <div className="map">
-                <div className="map__container"></div>
+              <div className="map" >
+                <div className="map__container">
+                  <Map />
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </main>
