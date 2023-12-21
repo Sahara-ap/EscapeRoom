@@ -17,7 +17,7 @@ const initialState: TCardsDataState = {
   cards: [],
   selectedCard: null,
   hasError: false,
-  isQuestsLoading: false,
+  isQuestsLoading: true,
 };
 
 const cardsDataSlice = createSlice({
@@ -26,6 +26,9 @@ const cardsDataSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchQuestsAction.pending, (state) => {
+        state.isQuestsLoading = true;
+      })
       .addCase(fetchQuestsAction.fulfilled, (state, action) => {
         state.cards = action.payload;
         state.isQuestsLoading = false;
@@ -34,9 +37,6 @@ const cardsDataSlice = createSlice({
       .addCase(fetchQuestsAction.rejected, (state) => {
         state.isQuestsLoading = false;
         state.hasError = true;
-      })
-      .addCase(fetchQuestsAction.pending, (state) => {
-        state.isQuestsLoading = true;
       })
 
       .addCase(fetchSelectedQuestAction.fulfilled, (state, action) => {

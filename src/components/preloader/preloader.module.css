@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  width: auto;
+  height: 90vh;
+  justify-content: end;
+  align-items: center;
+  flex-direction: column;
+
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  align-items: center;
+  padding-top: 10%;
+}
+
+.message {
+  margin: 0;
+  margin-top: 20%;
+  font-weight: 500;
+  font-size: 44px;
+  line-height: 60px;
+  text-align: center;
+  opacity: 0.89;
+}
+

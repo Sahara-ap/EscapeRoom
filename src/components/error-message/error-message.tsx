@@ -8,7 +8,7 @@ function ErrorMessage(): JSX.Element | null {
 
   return (
     error
-      ? <div className={'error-message'}>{error}</div>
+      ? (<div className={'error-message'}>{error}</div>)
       : null
   );
 
