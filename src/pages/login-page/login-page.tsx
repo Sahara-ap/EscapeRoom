@@ -1,10 +1,10 @@
 import { Link, Navigate } from 'react-router-dom';
 import { Header } from '../../components/header/header';
-import { AppRoute, AuthStatus } from '../../consts';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { AppRoute, AuthStatus, LoadingDataStatus } from '../../consts';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { loginAction } from '../../store/api-actions';
-import { getAuthStatus } from '../../store/user/user-selectors';
+import { getAuthStatus, getSendingLoginStatus } from '../../store/user/user-selectors';
 
 const MIN_PASSWORD_LENGTH = 3;
 const MAX_PASSWORD_LENGTH = 15;
@@ -13,6 +13,7 @@ function LoginPage(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthStatus);
+  const sendingLoginStatus = useAppSelector(getSendingLoginStatus);
 
 
   const [email, setEmail] = useState('');
@@ -37,6 +38,14 @@ function LoginPage(): JSX.Element {
     };
     dispatch(loginAction(authData));
   }
+
+  useEffect(() => {
+    if (sendingLoginStatus === LoadingDataStatus.Success) {
+      setEmail('');
+      setPassword('');
+      setCheckboxStatus(false);
+    }
+  }, [sendingLoginStatus]);
 
   function onEmailChange(event: ChangeEvent<HTMLInputElement>) {
     setEmail(event.target.value);

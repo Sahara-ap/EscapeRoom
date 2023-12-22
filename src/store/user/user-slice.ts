@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AuthStatus, NameSpace } from '../../consts';
+import { AuthStatus, LoadingDataStatus, NameSpace } from '../../consts';
 import { checkAuthStatusAction, loginAction, logoutAction } from '../api-actions';
 
 type TUserState = {
   authStatus: AuthStatus;
+  sendingLoginStatus: LoadingDataStatus;
 }
 
 const initialState: TUserState = {
   authStatus: AuthStatus.Unknown,
+  sendingLoginStatus: LoadingDataStatus.Unsent
 };
 
 const userSlice = createSlice({
@@ -25,9 +27,11 @@ const userSlice = createSlice({
 
       .addCase(loginAction.fulfilled, (state) => {
         state.authStatus = AuthStatus.Auth;
+        state.sendingLoginStatus = LoadingDataStatus.Success;
       })
       .addCase(loginAction.rejected, (state) => {
         state.authStatus = AuthStatus.NoAuth;
+        state.sendingLoginStatus = LoadingDataStatus.Error;
       })
 
       .addCase(logoutAction.fulfilled, (state) => {

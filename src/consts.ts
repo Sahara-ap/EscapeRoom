@@ -26,10 +26,18 @@ enum NameSpace {
   User = 'USER'
 }
 
+enum LoadingDataStatus {
+  Unsent = 'UNSENT',
+  Pending = 'PENDING',
+  Success = 'SUCCESS',
+  Error = 'ERROR',
+}
+
 
 export {
   APIRoute,
   AppRoute,
   AuthStatus,
   NameSpace,
+  LoadingDataStatus,
 };
