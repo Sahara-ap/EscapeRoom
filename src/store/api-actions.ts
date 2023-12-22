@@ -7,7 +7,7 @@ import { setError } from './app/app-slice';
 import { ThunkAPI } from '../types/store';
 import { TCard, TSelectedCard } from '../types/types';
 import { TAuthData, TUserData } from '../types/user';
-import { saveToken } from '../services/token';
+import { dropToken, saveToken } from '../services/token';
 
 const TIMEOUT_SHOW_ERROR = 3000;
 
@@ -53,6 +53,12 @@ const loginAction = createAsyncThunk<TUserData, TAuthData, ThunkAPI>(
   }
 );
 
+const logoutAction = createAsyncThunk<void, undefined, ThunkAPI>(
+  'user/logot',
+  async (_arg, {extra: api}) => {
+    await api.delete(APIRoute.Logout);
+    dropToken();
+  });
 
 export {
   clearErrorAction,
@@ -60,4 +66,5 @@ export {
   fetchSelectedQuestAction,
   checkAuthStatusAction,
   loginAction,
+  logoutAction,
 };

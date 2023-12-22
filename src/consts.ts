@@ -1,6 +1,7 @@
 enum APIRoute {
   Quests = '/v1/escape-room/quest',
   Login = '/v1/escape-room/login',
+  Logout = '/v1/escape-room/logout',
 }
 
 enum AppRoute {
