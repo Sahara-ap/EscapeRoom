@@ -39,8 +39,17 @@ const cardsDataSlice = createSlice({
         state.hasError = true;
       })
 
+      .addCase(fetchSelectedQuestAction.pending, (state) => {
+        state.isQuestsLoading = true;
+      })
       .addCase(fetchSelectedQuestAction.fulfilled, (state, action) => {
         state.selectedCard = action.payload;
+        state.isQuestsLoading = false;
+        state.hasError = false;
+      })
+      .addCase(fetchSelectedQuestAction.rejected, (state) => {
+        state.isQuestsLoading = false;
+        state.hasError = true;
       });
   }
 });

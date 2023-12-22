@@ -59,7 +59,7 @@ function MainPage(): JSX.Element {
 
 
   if (hasError) {
-    return <ErrorPage/>;
+    return <ErrorPage />;
   }
   if (isLoading) {
     return <Preloader />;
@@ -68,7 +68,6 @@ function MainPage(): JSX.Element {
 
   return (
     <>
-
       <Header isExtendedNav page={AppRoute.Main} />
       <main className="page-content">
         <div className="container">

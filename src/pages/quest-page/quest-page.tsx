@@ -5,11 +5,15 @@ import { translateLevelName, translateThemeName } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 
 import { Header } from '../../components/header/header';
-import { getSelectedCard } from '../../store/cards/cards-selectors';
+import { getHasError, getSelectedCard, isQuestsLoading } from '../../store/cards/cards-selectors';
 import { useEffect } from 'react';
 import { fetchSelectedQuestAction } from '../../store/api-actions';
+import ErrorPage from '../error-page/error-page';
+import { Preloader } from '../../components/preloader/preloader';
 
 function QuestPage(): JSX.Element {
+  const hasError = useAppSelector(getHasError);
+  const isLoading = useAppSelector(isQuestsLoading);
   const { id } = useParams();
 
   const dispatch = useAppDispatch();
@@ -20,6 +24,14 @@ function QuestPage(): JSX.Element {
       dispatch(fetchSelectedQuestAction(id));
     }
   }, [id, dispatch]);
+
+
+  if (hasError) {
+    return <ErrorPage />;
+  }
+  if (isLoading) {
+    return <Preloader />;
+  }
 
 
   return (

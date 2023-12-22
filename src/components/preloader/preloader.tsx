@@ -31,6 +31,4 @@ function Preloader(): JSX.Element | null {
   );
 }
 
-
-
 export { Preloader };
