@@ -4,6 +4,7 @@ import { AppRoute } from '../../consts';
 import { cardList } from '../../mocks/card-list';
 
 function MyQuestsPage(): JSX.Element {
+
   return (
     <>
       <Header page={AppRoute.MyQuests} isExtendedNav />

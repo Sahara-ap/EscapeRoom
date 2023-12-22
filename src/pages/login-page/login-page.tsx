@@ -26,10 +26,11 @@ function LoginPage(): JSX.Element {
     }
 
   }
+
+
   if (authStatus === AuthStatus.Auth) {
     return <Navigate to={AppRoute.Main} />;
   }
-
 
   return (
     <>
