@@ -6,7 +6,8 @@ import { setError } from './app/app-slice';
 
 import { ThunkAPI } from '../types/store';
 import { TCard, TSelectedCard } from '../types/types';
-import { TUserData } from '../types/user';
+import { TAuthData, TUserData } from '../types/user';
+import { saveToken } from '../services/token';
 
 const TIMEOUT_SHOW_ERROR = 3000;
 
@@ -26,18 +27,31 @@ const fetchQuestsAction = createAsyncThunk<TCard[], undefined, ThunkAPI>(
 
 const fetchSelectedQuestAction = createAsyncThunk<TSelectedCard, string, ThunkAPI>(
   'cards/fetchSelectedCard',
-  async(cardId, {extra: api}) => {
-    const {data} = await api.get<TSelectedCard>(`${APIRoute.Quests}/${cardId}`);
+  async (cardId, { extra: api }) => {
+    const { data } = await api.get<TSelectedCard>(`${APIRoute.Quests}/${cardId}`);
     return data;
   }
 );
 
 const checkAuthStatusAction = createAsyncThunk<TUserData, undefined, ThunkAPI>(
   'user/checkAuthStatus',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get<TUserData>(APIRoute.Login);
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<TUserData>(APIRoute.Login);
     return data;
   });
+
+const loginAction = createAsyncThunk<TUserData, TAuthData, ThunkAPI>(
+  'user/login',
+  async ({email, password}, { extra: api }) => {
+    const { data } = await api.post<TUserData>(APIRoute.Login, {email, password});
+    if (data) {
+      const token = data.token;
+      saveToken(token);
+    }
+
+    return data;
+  }
+);
 
 
 export {
@@ -45,4 +59,5 @@ export {
   fetchQuestsAction,
   fetchSelectedQuestAction,
   checkAuthStatusAction,
+  loginAction,
 };
