@@ -1,5 +1,6 @@
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { MainPage } from './pages/main-page/main-page';
 import { BookingPage } from './pages/booking/booking-page';
@@ -13,8 +14,15 @@ import { PrivateRoute } from './components/private-route/private-route';
 
 import { AppRoute, AuthStatus } from './consts';
 import { Layout } from './components/layout/layout';
+import { useAppDispatch } from './hooks/store-hooks';
+import { checkAuthStatusAction } from './store/api-actions';
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(checkAuthStatusAction());
+  }, [dispatch]);
+
   return (
     <HelmetProvider>
       <BrowserRouter>

@@ -6,8 +6,9 @@ import { setError } from './app/app-slice';
 
 import { ThunkAPI } from '../types/store';
 import { TCard, TSelectedCard } from '../types/types';
+import { TUserData } from '../types/user';
 
-const TIMEOUT_SHOW_ERROR = 2000;
+const TIMEOUT_SHOW_ERROR = 3000;
 
 const clearErrorAction = createAsyncThunk(
   'app/clearError',
@@ -31,8 +32,17 @@ const fetchSelectedQuestAction = createAsyncThunk<TSelectedCard, string, ThunkAP
   }
 );
 
+const checkAuthStatusAction = createAsyncThunk<TUserData, undefined, ThunkAPI>(
+  'user/checkAuthStatus',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<TUserData>(APIRoute.Login);
+    return data;
+  });
+
+
 export {
   clearErrorAction,
   fetchQuestsAction,
   fetchSelectedQuestAction,
+  checkAuthStatusAction,
 };
