@@ -1,30 +1,53 @@
 import { Link, Navigate } from 'react-router-dom';
 import { Header } from '../../components/header/header';
 import { AppRoute, AuthStatus } from '../../consts';
-import { FormEvent, useRef } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { loginAction } from '../../store/api-actions';
 import { getAuthStatus } from '../../store/user/user-selectors';
+
+const MIN_PASSWORD_LENGTH = 3;
+const MAX_PASSWORD_LENGTH = 15;
 
 function LoginPage(): JSX.Element {
 
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthStatus);
 
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [checkboxStatus, setCheckboxStatus] = useState(false);
+
+  const pattern = /([a-zA-Z]+[0-9]+)|([0-9]+[a-zA-Z]+)/;
+  const isPattern = pattern.test(password);
+
+  const isValid = (password.length >= MIN_PASSWORD_LENGTH)
+    && (password.length <= MAX_PASSWORD_LENGTH)
+    && (email)
+    && (checkboxStatus)
+    && isPattern;
+
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const authData = {
+      email: email,
+      password: password
+    };
+    dispatch(loginAction(authData));
+  }
 
-    if (emailRef.current && passwordRef.current) {
-      const authData = {
-        email: emailRef.current.value,
-        password: passwordRef.current.value
-      };
-      dispatch(loginAction(authData));
-    }
+  function onEmailChange(event: ChangeEvent<HTMLInputElement>) {
+    setEmail(event.target.value);
+  }
 
+  function handlePasswordChange(event: ChangeEvent<HTMLInputElement>) {
+    setPassword(event.target.value);
+  }
+
+  function handleCheckboxChange() {
+    setCheckboxStatus((prevStatus) => !prevStatus);
   }
 
 
@@ -56,22 +79,27 @@ function LoginPage(): JSX.Element {
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="email">E&nbsp;&ndash;&nbsp;mail</label>
                     <input
-                      ref={emailRef}
+                      value={email}
                       type="email"
                       id="email"
                       name="email"
                       placeholder="Адрес электронной почты"
+                      onChange={onEmailChange}
                       required
                     />
                   </div>
                   <div className="custom-input login-form__input">
                     <label className="custom-input__label" htmlFor="password">Пароль</label>
                     <input
-                      ref={passwordRef}
+                      value={password}
                       type="password"
                       id="password"
                       name="password"
                       placeholder="Пароль"
+                      pattern="([a-zA-Z]+[0-9]+)|([0-9]+[a-zA-Z]+)"
+                      minLength={MIN_PASSWORD_LENGTH}
+                      maxLength={MAX_PASSWORD_LENGTH}
+                      onChange={handlePasswordChange}
                       required
                     />
                   </div>
@@ -79,15 +107,18 @@ function LoginPage(): JSX.Element {
                 <button
                   className="btn btn--accent btn--general login-form__submit"
                   type="submit"
+                  disabled={!isValid}
                 >
                   Войти
                 </button>
               </div>
               <label className="custom-checkbox login-form__checkbox">
                 <input
+                  checked={checkboxStatus}
                   type="checkbox"
                   id="id-order-agreement"
                   name="user-agreement"
+                  onChange={handleCheckboxChange}
                   required
                 />
                 <span className="custom-checkbox__icon" >
