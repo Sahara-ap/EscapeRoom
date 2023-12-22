@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import { CardList } from '../../components/card-list/card-list';
 import { Header } from '../../components/header/header';
 import { AppRoute } from '../../consts';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { cardList } from '../../mocks/card-list';
+import { getMyQuests } from '../../store/mycards/mycards-selectors';
+import { fetchMyQuestsAction } from '../../store/api-actions';
 
 function MyQuestsPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const myQuests = useAppSelector(getMyQuests);
+
+  useEffect(() => {
+    dispatch(fetchMyQuestsAction());
+  },[dispatch]);
+
 
   return (
     <>

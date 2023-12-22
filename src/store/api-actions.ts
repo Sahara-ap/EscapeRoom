@@ -5,7 +5,7 @@ import { APIRoute } from '../consts';
 import { setError } from './app/app-slice';
 
 import { ThunkAPI } from '../types/store';
-import { TCard, TSelectedCard } from '../types/types';
+import { TCard, TMyReservedQuests, TSelectedCard } from '../types/types';
 import { TAuthData, TUserData } from '../types/user';
 import { dropToken, saveToken } from '../services/token';
 
@@ -33,6 +33,14 @@ const fetchSelectedQuestAction = createAsyncThunk<TSelectedCard, string, ThunkAP
   }
 );
 
+const fetchMyQuestsAction = createAsyncThunk<TMyReservedQuests[], undefined, ThunkAPI>(
+  'cards/fetchMyQuests',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<TMyReservedQuests[]>(APIRoute.MyQuests);
+    return data;
+  }
+);
+
 const checkAuthStatusAction = createAsyncThunk<TUserData, undefined, ThunkAPI>(
   'user/checkAuthStatus',
   async (_arg, { extra: api }) => {
@@ -54,7 +62,7 @@ const loginAction = createAsyncThunk<TUserData, TAuthData, ThunkAPI>(
 );
 
 const logoutAction = createAsyncThunk<void, undefined, ThunkAPI>(
-  'user/logot',
+  'user/logout',
   async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
@@ -64,6 +72,7 @@ export {
   clearErrorAction,
   fetchQuestsAction,
   fetchSelectedQuestAction,
+  fetchMyQuestsAction,
   checkAuthStatusAction,
   loginAction,
   logoutAction,

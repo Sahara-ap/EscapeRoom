@@ -1,7 +1,8 @@
 enum APIRoute {
-  Quests = '/v1/escape-room/quest',
   Login = '/v1/escape-room/login',
   Logout = '/v1/escape-room/logout',
+  MyQuests= '/v1/escape-room/reservation',
+  Quests = '/v1/escape-room/quest',
 }
 
 enum AppRoute {
@@ -23,6 +24,7 @@ enum AuthStatus {
 enum NameSpace {
   App = 'APP',
   Cards = 'CARDS',
+  MyQuests = 'MY_QUESTS',
   User = 'USER'
 }
 
