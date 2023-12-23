@@ -2,7 +2,7 @@ import styles from './error-page.module.css';
 
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/store-hooks';
-import { fetchMyQuestsAction, fetchQuestsAction, fetchSelectedQuestAction } from '../../store/api-actions';
+import { fetchMyQuestsAction, fetchQuestsAction, fetchSelectedQuestAction } from '../../store/api-actions/api-actions';
 import { useParams } from 'react-router-dom';
 
 type ErrorPageProps = {

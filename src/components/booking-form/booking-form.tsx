@@ -1,5 +1,15 @@
+import { TBookingData } from '../../types/types';
 
-function BookingForm(): JSX.Element {
+type TBookingFormProps = {
+  data: TBookingData[];
+}
+
+function BookingForm({data}: TBookingFormProps): JSX.Element {
+
+
+  const todaySlots = data.map((item) => item.slots.today);
+  const tomorrowSlots = data.map((item) => item.slots.tomorrow);
+
   return (
     <form className="booking-form" action="https://echo.htmlacademy.ru/" method="post">
       <fieldset className="booking-form__section">
@@ -7,35 +17,38 @@ function BookingForm(): JSX.Element {
         <fieldset className="booking-form__date-section">
           <legend className="booking-form__date-title">Сегодня</legend>
           <div className="booking-form__date-inner-wrapper">
-            <label className="custom-radio booking-form__date">
-              <input type="radio" id="today9h45m" name="date" required value="today9h45m" />
-              <span className="custom-radio__label">9:45</span>
-            </label>
-            <label className="custom-radio booking-form__date">
-              <input type="radio" id="today15h00m" name="date" defaultChecked required value="today15h00m" />
-              <span className="custom-radio__label">15:00</span>
-            </label>
-            <label className="custom-radio booking-form__date">
-              <input type="radio" id="today17h30m" name="date" required value="today17h30m" />
-              <span className="custom-radio__label">17:30</span>
-            </label>
-            <label className="custom-radio booking-form__date">
-              <input type="radio" id="today19h30m" name="date" required value="today19h30m" disabled />
-              <span className="custom-radio__label">19:30</span>
-            </label>
-            <label className="custom-radio booking-form__date">
-              <input type="radio" id="today21h30m" name="date" required value="today21h30m" />
-              <span className="custom-radio__label">21:30</span>
-            </label>
+            {todaySlots.map((slot) => (
+              <label key={window.crypto.randomUUID()} className="custom-radio booking-form__date">
+                <input
+                  type="radio"
+                  id="today9h45m"
+                  name="date"
+                  required
+                  value="today9h45m"
+                  defaultChecked={false}
+                  disabled={false}
+                />
+                <span className="custom-radio__label">{slot[0].time}</span>
+              </label>
+            ))}
           </div>
+
         </fieldset>
         <fieldset className="booking-form__date-section">
           <legend className="booking-form__date-title">Завтра</legend>
           <div className="booking-form__date-inner-wrapper">
             <label className="custom-radio booking-form__date">
-              <input type="radio" id="tomorrow11h00m" name="date" required value="tomorrow11h00m" />
+              <input
+                type="radio"
+                id="tomorrow11h00m"
+                name="date"
+                required
+                value="tomorrow11h00m"
+                disabled={false}
+              />
               <span className="custom-radio__label">11:00</span>
             </label>
+
             <label className="custom-radio booking-form__date">
               <input type="radio" id="tomorrow15h00m" name="date" required value="tomorrow15h00m" disabled />
               <span className="custom-radio__label">15:00</span>

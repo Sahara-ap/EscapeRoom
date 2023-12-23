@@ -9,7 +9,19 @@ type TCard = {
 }
 
 type TLevel = 'easy' | 'medium' | 'hard' | 'any';
+type TFilterLevels = {
+  title: string;
+  id: TLevel;
+}
+
 type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi' | 'all';
+type TFilterThemes = {
+    title: string;
+    theme: TTheme;
+    logo: string;
+    logoWidth: string;
+    id: string;
+  }
 
 type TSelectedCard = {
   'id': string;
@@ -24,20 +36,19 @@ type TSelectedCard = {
   'coverImgWebp': string;
 }
 
+
 type TBookingData = {
   'id': string;
   'location': {
     'address': string;
-    'coords': [number];
+    'coords': [number, number];
   };
   'slots': {
-    'today': [
-      {
+    'today': [{
         'time': string;
         'isAvailable': boolean;
       }];
-    'tomorrow': [
-      {
+    'tomorrow': [{
         'time': string;
         'isAvailable': boolean;
       }];
@@ -53,9 +64,7 @@ type TBookingQuestPostInfo = {
   'peopleCount': number;
   'placeId': string;
 }
-
-type TBookingQuestResponseInfo =
-  {
+type TBookingQuestResponseInfo = {
     'date': string;
     'time': string;
     'contactPerson': string;
@@ -70,19 +79,6 @@ type TBookingQuestResponseInfo =
     'quest': TCard;
   }
 
-type TFilterThemes =
-  {
-    title: string;
-    theme: TTheme;
-    logo: string;
-    logoWidth: string;
-    id: string;
-  }
-
-type TFilterLevels = {
-  title: string;
-  id: TLevel;
-}
 
 type TMyReservedQuest = {
     'date': 'today' | 'tomorrow';
@@ -98,20 +94,22 @@ type TMyReservedQuest = {
     };
     'quest': TCard;
   }
-
   type TPartialMyReservedQuest = Omit<TMyReservedQuest, 'quest'>
 
 
 export type {
   TCard,
   TLevel,
+  TFilterLevels,
   TTheme,
+  TFilterThemes,
+
   TSelectedCard,
+
   TBookingData,
   TBookingQuestPostInfo,
   TBookingQuestResponseInfo,
-  TFilterThemes,
-  TFilterLevels,
+
   TMyReservedQuest,
   TPartialMyReservedQuest,
 };

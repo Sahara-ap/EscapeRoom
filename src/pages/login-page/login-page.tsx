@@ -3,7 +3,7 @@ import { Header } from '../../components/header/header';
 import { AppRoute, AuthStatus, LoadingDataStatus } from '../../consts';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { loginAction } from '../../store/api-actions';
+import { loginAction } from '../../store/api-actions/api-actions';
 import { getAuthStatus, getSendingLoginStatus } from '../../store/user/user-selectors';
 
 const MIN_PASSWORD_LENGTH = 3;

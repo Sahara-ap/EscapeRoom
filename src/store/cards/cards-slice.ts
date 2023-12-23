@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { NameSpace } from '../../consts';
-import { fetchQuestsAction, fetchSelectedQuestAction } from '../api-actions';
+import { fetchQuestsAction, fetchSelectedQuestAction } from '../api-actions/api-actions';
 
 import { TSelectedCard } from '../../types/types';
 import { TCard } from '../../types/types';

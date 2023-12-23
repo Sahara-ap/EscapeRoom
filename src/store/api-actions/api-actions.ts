@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { APIRoute } from '../consts';
+import { APIRoute } from '../../consts';
 
-import { setError } from './app/app-slice';
+import { setError } from '../app/app-slice';
 
-import { ThunkAPI } from '../types/store';
-import { TCard, TMyReservedQuest, TSelectedCard } from '../types/types';
-import { TAuthData, TUserData } from '../types/user';
-import { dropToken, saveToken } from '../services/token';
+import { ThunkAPI } from '../../types/store';
+import { TCard, TMyReservedQuest, TSelectedCard } from '../../types/types';
+import { TAuthData, TUserData } from '../../types/user';
+import { dropToken, saveToken } from '../../services/token';
 
 const TIMEOUT_SHOW_ERROR = 3000;
 

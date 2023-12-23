@@ -4,7 +4,7 @@ import { Header } from '../../components/header/header';
 import { AppRoute } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getMyQuests, isMyQuestsLoading } from '../../store/mycards/mycards-selectors';
-import { fetchMyQuestsAction } from '../../store/api-actions';
+import { fetchMyQuestsAction } from '../../store/api-actions/api-actions';
 import { TMyReservedQuest, TPartialMyReservedQuest } from '../../types/types';
 import ErrorPage from '../error-page/error-page';
 import { Preloader } from '../../components/preloader/preloader';

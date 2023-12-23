@@ -23,6 +23,7 @@ enum AuthStatus {
 
 enum NameSpace {
   App = 'APP',
+  Booking = 'BOOKING',
   Cards = 'CARDS',
   MyQuests = 'MY_QUESTS',
   User = 'USER'

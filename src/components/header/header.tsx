@@ -5,7 +5,7 @@ import { AppRoute, AuthStatus } from '../../consts';
 import { Logo } from '../logo/logo';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getAuthStatus } from '../../store/user/user-selectors';
-import { logoutAction } from '../../store/api-actions';
+import { logoutAction } from '../../store/api-actions/api-actions';
 
 type THeaderProps = {
   page: AppRoute;

@@ -11,7 +11,7 @@ import { getHasError } from '../../store/app/app.selectors';
 import { TCard, TLevel, TTheme } from '../../types/types';
 import { FilterThemes } from '../../components/filters/filter-themes';
 import { FilterLevels } from '../../components/filters/filter-levels';
-import { fetchQuestsAction } from '../../store/api-actions';
+import { fetchQuestsAction } from '../../store/api-actions/api-actions';
 import ErrorPage from '../error-page/error-page';
 import { Preloader } from '../../components/preloader/preloader';
 import { EmptyMain } from '../../components/empty-main/empty-main';

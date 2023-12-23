@@ -1,5 +1,5 @@
 import { store } from './store';
-import { clearErrorAction } from './store/api-actions';
+import { clearErrorAction } from './store/api-actions/api-actions';
 import { setError } from './store/app/app-slice';
 import { TLevel, TMyReservedQuest, TTheme } from './types/types';
 

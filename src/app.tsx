@@ -15,7 +15,7 @@ import { PrivateRoute } from './components/private-route/private-route';
 import { AppRoute } from './consts';
 import { Layout } from './components/layout/layout';
 import { useAppDispatch } from './hooks/store-hooks';
-import { checkAuthStatusAction } from './store/api-actions';
+import { checkAuthStatusAction } from './store/api-actions/api-actions';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
