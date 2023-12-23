@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../consts';
 import { TMyReservedQuest } from '../../types/types';
-import { fetchMyQuestsAction } from '../api-actions/api-actions';
+import { dropMyQuestAction, fetchMyQuestsAction } from '../api-actions/api-actions';
 
 type TMyQuestsSlice = {
   myQuests: TMyReservedQuest[];
   isMyQuestsLoading: boolean;
+  isMyQuestDeleting: boolean;
 }
 
 const initialState: TMyQuestsSlice = {
   myQuests: [],
   isMyQuestsLoading: false,
+  isMyQuestDeleting: false
 };
 
 const myQuestsSlice = createSlice({
@@ -28,6 +30,16 @@ const myQuestsSlice = createSlice({
       })
       .addCase(fetchMyQuestsAction.rejected, (state) => {
         state.isMyQuestsLoading = false;
+      })
+
+      .addCase(dropMyQuestAction.pending, (state) => {
+        state.isMyQuestDeleting = true;
+      })
+      .addCase(dropMyQuestAction.fulfilled, (state) => {
+        state.isMyQuestDeleting = false;
+      })
+      .addCase(dropMyQuestAction.rejected, (state) => {
+        state.isMyQuestDeleting = false;
       });
   }
 });

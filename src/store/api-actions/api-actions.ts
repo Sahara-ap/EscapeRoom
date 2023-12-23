@@ -42,6 +42,13 @@ const fetchMyQuestsAction = createAsyncThunk<TMyReservedQuest[], undefined, Thun
   }
 );
 
+const dropMyQuestAction = createAsyncThunk<void, string, ThunkAPI>(
+  'cards/dropMyQuest',
+  async (reservationId, { extra: api }) => {
+    await api.get(`${APIRoute.MyQuests}/${reservationId}`);
+  }
+);
+
 const checkAuthStatusAction = createAsyncThunk<TUserData, undefined, ThunkAPI>(
   'user/checkAuthStatus',
   async (_arg, { extra: api }) => {
@@ -71,9 +78,13 @@ const logoutAction = createAsyncThunk<void, undefined, ThunkAPI>(
 
 export {
   clearErrorAction,
+
   fetchQuestsAction,
   fetchSelectedQuestAction,
+
   fetchMyQuestsAction,
+  dropMyQuestAction,
+
   checkAuthStatusAction,
   loginAction,
   logoutAction,
