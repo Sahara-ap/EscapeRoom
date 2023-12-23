@@ -17,6 +17,8 @@ function MyQuestsPage(): JSX.Element {
   const myQuests = useAppSelector(getMyQuests);
   const myQuestClone = structuredClone(myQuests);
 
+  const cardsIsEmpty = myQuests.length === 0;
+
   const shortDataList = myQuests.map((item: TMyReservedQuest) => {
     const value = item.quest;
     return value;
@@ -64,9 +66,15 @@ function MyQuestsPage(): JSX.Element {
           <div className="page-content__title-wrapper">
             <h1 className="title title--size-m page-content__title">Мои бронирования</h1>
           </div>
-          <div className="cards-grid">
-            <CardList cards={shortDataList} myCard={extendedDataList} />
-          </div>
+          {cardsIsEmpty
+            ?
+            <div>
+              <h1>У вас нет забронированных квестов</h1>
+            </div>
+            :
+            <div className="cards-grid">
+              <CardList cards={shortDataList} myCard={extendedDataList} />
+            </div>}
         </div>
       </main>
     </>
