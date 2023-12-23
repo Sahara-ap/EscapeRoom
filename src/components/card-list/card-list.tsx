@@ -1,19 +1,21 @@
-import { TCard } from '../../types/types';
+import { TCard, TPartialMyReservedQuest } from '../../types/types';
 import { Card } from '../card/card';
 
 type TCardListProps = {
   cards: TCard[];
-  cb: (cardId: TCard['id']) => void;
+  myCard?: TPartialMyReservedQuest[];
+  cb?: (cardId: TCard['id']) => void;
 }
 
-function CardList({ cards, cb }: TCardListProps): JSX.Element {
+function CardList({ cards, myCard = [], cb }: TCardListProps): JSX.Element {
   return (
     <>
       {
-        cards.map((card) => (
+        cards.map((card, index) => (
           <Card
             key={card.id}
             card={card}
+            myCard={myCard[index]}
             cb={cb}
           />
         ))

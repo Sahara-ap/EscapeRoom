@@ -5,10 +5,10 @@ type TCard = {
   'previewImgWebp': string;
   'level': TLevel;
   'type': TTheme;
-  'peopleMinMax': [number, number?];
+  'peopleMinMax': [number, number];
 }
 
-type TLevel = 'easy' | 'medium' | 'hard' | 'any' ;
+type TLevel = 'easy' | 'medium' | 'hard' | 'any';
 type TTheme = 'horror' | 'mystic' | 'detective' | 'adventures' | 'sci-fi' | 'all';
 
 type TSelectedCard = {
@@ -84,6 +84,24 @@ type TFilterLevels = {
   id: TLevel;
 }
 
+type TMyReservedQuest = {
+    'date': 'today' | 'tomorrow';
+    'time': string;
+    'contactPerson': string;
+    'phone': string;
+    'withChildren': boolean;
+    'peopleCount': number;
+    'id': string;
+    'location': {
+      'address': string;
+      'coords': [number];
+    };
+    'quest': TCard;
+  }
+
+  type TPartialMyReservedQuest = Omit<TMyReservedQuest, 'quest'>
+
+
 export type {
   TCard,
   TLevel,
@@ -94,5 +112,7 @@ export type {
   TBookingQuestResponseInfo,
   TFilterThemes,
   TFilterLevels,
+  TMyReservedQuest,
+  TPartialMyReservedQuest,
 };
 

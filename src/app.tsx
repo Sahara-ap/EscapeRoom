@@ -1,5 +1,6 @@
 import { HelmetProvider } from 'react-helmet-async';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { MainPage } from './pages/main-page/main-page';
 import { BookingPage } from './pages/booking/booking-page';
@@ -11,10 +12,17 @@ import { NotFoundPage } from './pages/404-page/404-page';
 
 import { PrivateRoute } from './components/private-route/private-route';
 
-import { AppRoute, AuthStatus } from './consts';
+import { AppRoute } from './consts';
 import { Layout } from './components/layout/layout';
+import { useAppDispatch } from './hooks/store-hooks';
+import { checkAuthStatusAction } from './store/api-actions';
 
 function App(): JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(checkAuthStatusAction());
+  }, [dispatch]);
+
   return (
     <HelmetProvider>
       <BrowserRouter>
@@ -26,8 +34,8 @@ function App(): JSX.Element {
             <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
             <Route path={`${AppRoute.Quest}/:id`} element={<QuestPage />} />
 
-            <Route path={AppRoute.MyQuests} element={<PrivateRoute authStatus={AuthStatus.Auth}><MyQuestsPage /></PrivateRoute>} />
-            <Route path={`${AppRoute.Booking}/:id`} element={<PrivateRoute authStatus={AuthStatus.Auth}><BookingPage /></PrivateRoute>} />
+            <Route path={AppRoute.MyQuests} element={<PrivateRoute redirectTo={AppRoute.Login}><MyQuestsPage /></PrivateRoute>} />
+            <Route path={`${AppRoute.Booking}/:id`} element={<PrivateRoute redirectTo={AppRoute.Login}><BookingPage /></PrivateRoute>} />
           </Route>
         </Routes>
       </BrowserRouter>
