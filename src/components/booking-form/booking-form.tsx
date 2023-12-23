@@ -13,6 +13,17 @@ const locationsAmount = questLocations.length;
 
   const tomorrowSlots = questLocations.map((item) => item.slots.tomorrow);
 
+  const body = {
+    date: "",
+    time: '14:00',
+    contactPerson: 'Oliver',
+    phone: 0,
+    withChildren: true,
+    peopleCount: 3,
+    placeId: ''
+  };
+  
+
   return (
     <form className="booking-form" action="https://echo.htmlacademy.ru/" method="post">
       <fieldset className="booking-form__section">

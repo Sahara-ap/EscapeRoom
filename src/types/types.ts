@@ -64,6 +64,10 @@ type TBookingQuestPostInfo = {
   'peopleCount': number;
   'placeId': string;
 }
+type TPostArgument = {
+  questId: string;
+  formData: TBookingQuestPostInfo;
+}
 type TBookingQuestResponseInfo = {
     'date': string;
     'time': string;
@@ -108,6 +112,7 @@ export type {
 
   TBookingData,
   TBookingQuestPostInfo,
+  TPostArgument,
   TBookingQuestResponseInfo,
 
   TMyReservedQuest,

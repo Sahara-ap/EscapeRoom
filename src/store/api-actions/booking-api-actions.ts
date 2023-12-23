@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { TBookingData } from '../../types/types';
+import { TBookingData, TBookingQuestResponseInfo, TPostArgument } from '../../types/types';
 import { ThunkAPI } from '../../types/store';
 import { APIRoute } from '../../consts';
 
@@ -11,6 +11,15 @@ const fetchBookingData = createAsyncThunk<TBookingData[], string, ThunkAPI>(
   }
 );
 
+const sendBookingData = createAsyncThunk<TBookingQuestResponseInfo, TPostArgument, ThunkAPI>(
+  'booking/sendData',
+  async ({questId, formData}, {extra: api}) => {
+    const {data} = await api.post<TBookingQuestResponseInfo>(`${APIRoute.Quests}/${questId}/booking`, formData);
+    return data;
+  }
+);
+
 export {
   fetchBookingData,
+  sendBookingData,
 };
