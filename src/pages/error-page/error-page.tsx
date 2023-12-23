@@ -33,7 +33,7 @@ function ErrorPage({ page }: ErrorPageProps): JSX.Element {
         <title>{'Escape-Room - Error'}</title>
       </Helmet>
       <div className={styles.wrapper}>
-        <h1 className={styles.title}>Не удалось загрузить квесты</h1>
+        <h1 className={styles.title}>Не удалось загрузить данные</h1>
         <button
           onClick={handleButtonClick}
           className={styles.btn}
