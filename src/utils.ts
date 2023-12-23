@@ -1,7 +1,7 @@
 import { store } from './store';
 import { clearErrorAction } from './store/api-actions';
 import { setError } from './store/app/app-slice';
-import { TLevel, TTheme } from './types/types';
+import { TLevel, TMyReservedQuest, TTheme } from './types/types';
 
 function translateLevelName(levelKey: TLevel) {
   const level = {
@@ -30,6 +30,14 @@ function translateThemeName(themeKey: TTheme) {
   return theme[themeKey];
 }
 
+function translateDate(dateKey: TMyReservedQuest['date']) {
+  const date = {
+    today: 'сегодня',
+    tomorrow: 'завтра',
+  };
+  return date[dateKey];
+}
+
 function processErrorHandle(message: string): void {
   store.dispatch(setError(message));
   store.dispatch(clearErrorAction());
@@ -38,5 +46,6 @@ function processErrorHandle(message: string): void {
 export {
   translateLevelName,
   translateThemeName,
+  translateDate,
   processErrorHandle,
 };

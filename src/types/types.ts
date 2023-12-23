@@ -5,7 +5,7 @@ type TCard = {
   'previewImgWebp': string;
   'level': TLevel;
   'type': TTheme;
-  'peopleMinMax': [number, number?];
+  'peopleMinMax': [number, number];
 }
 
 type TLevel = 'easy' | 'medium' | 'hard' | 'any';
@@ -84,7 +84,7 @@ type TFilterLevels = {
   id: TLevel;
 }
 
-type TMyReservedQuests = {
+type TMyReservedQuest = {
     'date': 'today' | 'tomorrow';
     'time': string;
     'contactPerson': string;
@@ -94,10 +94,12 @@ type TMyReservedQuests = {
     'id': string;
     'location': {
       'address': string;
-      'coords': [number, number?];
+      'coords': [number];
     };
     'quest': TCard;
   }
+
+  type TPartialMyReservedQuest = Omit<TMyReservedQuest, 'quest'>
 
 
 export type {
@@ -110,6 +112,7 @@ export type {
   TBookingQuestResponseInfo,
   TFilterThemes,
   TFilterLevels,
-  TMyReservedQuests,
+  TMyReservedQuest,
+  TPartialMyReservedQuest,
 };
 
