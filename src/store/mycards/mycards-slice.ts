@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../consts';
-import { TMyReservedQuests } from '../../types/types';
+import { TMyReservedQuest } from '../../types/types';
 import { fetchMyQuestsAction } from '../api-actions';
 
 type TMyQuestsSlice = {
-  myQuests: TMyReservedQuests[];
+  myQuests: TMyReservedQuest[];
   isMyQuestsLoading: boolean;
 }
 

@@ -3,12 +3,17 @@ import { CardList } from '../../components/card-list/card-list';
 import { Header } from '../../components/header/header';
 import { AppRoute } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { getMyQuests } from '../../store/mycards/mycards-selectors';
+import { getMyQuests, isMyQuestsLoading } from '../../store/mycards/mycards-selectors';
 import { fetchMyQuestsAction } from '../../store/api-actions';
 import { TMyReservedQuest, TPartialMyReservedQuest } from '../../types/types';
+import ErrorPage from '../error-page/error-page';
+import { Preloader } from '../../components/preloader/preloader';
+import { getHasError } from '../../store/app/app.selectors';
 
 function MyQuestsPage(): JSX.Element {
   const dispatch = useAppDispatch();
+  const hasError = useAppSelector(getHasError);
+  const isLoading = useAppSelector(isMyQuestsLoading);
   const myQuests = useAppSelector(getMyQuests);
   const myQuestClone = structuredClone(myQuests);
 
@@ -39,7 +44,12 @@ function MyQuestsPage(): JSX.Element {
     dispatch(fetchMyQuestsAction());
   }, [dispatch]);
 
-
+  if (isLoading) {
+    return <Preloader />;
+  }
+  if (hasError) {
+    return <ErrorPage page='myquest' />;
+  }
   return (
     <>
       <Header page={AppRoute.MyQuests} isExtendedNav />

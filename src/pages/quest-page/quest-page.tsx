@@ -1,13 +1,14 @@
 import { Link, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { AppRoute } from '../../consts';
 import { translateLevelName, translateThemeName } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
+import { getSelectedCard, isQuestsLoading } from '../../store/cards/cards-selectors';
+import { getHasError } from '../../store/app/app.selectors';
 
-import { Header } from '../../components/header/header';
-import { getHasError, getSelectedCard, isQuestsLoading } from '../../store/cards/cards-selectors';
-import { useEffect } from 'react';
 import { fetchSelectedQuestAction } from '../../store/api-actions';
+import { Header } from '../../components/header/header';
 import ErrorPage from '../error-page/error-page';
 import { Preloader } from '../../components/preloader/preloader';
 
@@ -27,13 +28,11 @@ function QuestPage(): JSX.Element {
 
 
   if (hasError) {
-    return <ErrorPage />;
+    return <ErrorPage page='quest'/>;
   }
   if (isLoading) {
     return <Preloader />;
   }
-
-
   return (
     <>
       <Header page={AppRoute.Quest} />

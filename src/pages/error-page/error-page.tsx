@@ -2,10 +2,30 @@ import styles from './error-page.module.css';
 
 import { Helmet } from 'react-helmet-async';
 import { useAppDispatch } from '../../hooks/store-hooks';
-import { fetchQuestsAction } from '../../store/api-actions';
+import { fetchMyQuestsAction, fetchQuestsAction, fetchSelectedQuestAction } from '../../store/api-actions';
+import { useParams } from 'react-router-dom';
 
-function ErrorPage(): JSX.Element {
+type ErrorPageProps = {
+  page: 'main' | 'quest' | 'myquest';
+}
+function ErrorPage({ page }: ErrorPageProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const { id } = useParams();
+
+  function handleButtonClick() {
+    switch (page) {
+      case 'main':
+        dispatch(fetchQuestsAction());
+        return;
+      case 'quest':
+        if (id) {
+          dispatch(fetchSelectedQuestAction(id));
+        }
+        return;
+      case 'myquest':
+        dispatch(fetchMyQuestsAction());
+    }
+  }
 
   return (
     <div className={`${styles.notfound} decorated-page`}>
@@ -15,9 +35,7 @@ function ErrorPage(): JSX.Element {
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Не удалось загрузить квесты</h1>
         <button
-          onClick={() => {
-            dispatch(fetchQuestsAction());
-          }}
+          onClick={handleButtonClick}
           className={styles.btn}
           type="button"
         >

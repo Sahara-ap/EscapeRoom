@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 
 import { Header } from '../../components/header/header';
 import { CardList } from '../../components/card-list/card-list';
-import { getCards, getHasError, isQuestsLoading } from '../../store/cards/cards-selectors';
+import { getCards, isQuestsLoading } from '../../store/cards/cards-selectors';
+import { getHasError } from '../../store/app/app.selectors';
 
 import { TCard, TLevel, TTheme } from '../../types/types';
 import { FilterThemes } from '../../components/filters/filter-themes';
@@ -32,11 +33,9 @@ function MainPage(): JSX.Element {
   function getCardId(cardIdentificator: TCard['id']) {
     setCardId(cardIdentificator);
   }
-
   function getThemeFilter(themeFilter: TTheme) {
     setTheme(themeFilter);
   }
-
   function getLevelFilter(levelFilter: TLevel) {
     setLevel(levelFilter);
   }
@@ -59,13 +58,11 @@ function MainPage(): JSX.Element {
 
 
   if (hasError) {
-    return <ErrorPage />;
+    return <ErrorPage page='main'/>;
   }
   if (isLoading) {
     return <Preloader />;
   }
-
-
   return (
     <>
       <Header isExtendedNav page={AppRoute.Main} />

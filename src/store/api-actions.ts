@@ -5,7 +5,7 @@ import { APIRoute } from '../consts';
 import { setError } from './app/app-slice';
 
 import { ThunkAPI } from '../types/store';
-import { TCard, TMyReservedQuests, TSelectedCard } from '../types/types';
+import { TCard, TMyReservedQuest, TSelectedCard } from '../types/types';
 import { TAuthData, TUserData } from '../types/user';
 import { dropToken, saveToken } from '../services/token';
 
@@ -33,10 +33,11 @@ const fetchSelectedQuestAction = createAsyncThunk<TSelectedCard, string, ThunkAP
   }
 );
 
-const fetchMyQuestsAction = createAsyncThunk<TMyReservedQuests[], undefined, ThunkAPI>(
+const fetchMyQuestsAction = createAsyncThunk<TMyReservedQuest[], undefined, ThunkAPI>(
   'cards/fetchMyQuests',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get<TMyReservedQuests[]>(APIRoute.MyQuests);
+
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<TMyReservedQuest[]>(APIRoute.MyQuests);
     return data;
   }
 );
@@ -50,8 +51,8 @@ const checkAuthStatusAction = createAsyncThunk<TUserData, undefined, ThunkAPI>(
 
 const loginAction = createAsyncThunk<TUserData, TAuthData, ThunkAPI>(
   'user/login',
-  async ({email, password}, { extra: api }) => {
-    const { data } = await api.post<TUserData>(APIRoute.Login, {email, password});
+  async ({ email, password }, { extra: api }) => {
+    const { data } = await api.post<TUserData>(APIRoute.Login, { email, password });
     if (data) {
       const token = data.token;
       saveToken(token);
@@ -63,7 +64,7 @@ const loginAction = createAsyncThunk<TUserData, TAuthData, ThunkAPI>(
 
 const logoutAction = createAsyncThunk<void, undefined, ThunkAPI>(
   'user/logout',
-  async (_arg, {extra: api}) => {
+  async (_arg, { extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
   });

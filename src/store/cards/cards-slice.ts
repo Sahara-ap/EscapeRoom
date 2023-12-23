@@ -9,14 +9,12 @@ import { TCard } from '../../types/types';
 type TCardsDataState = {
   cards: TCard[];
   selectedCard: TSelectedCard | null;
-  hasError: boolean;
   isQuestsLoading: boolean;
 }
 
 const initialState: TCardsDataState = {
   cards: [],
   selectedCard: null,
-  hasError: false,
   isQuestsLoading: true,
 };
 
@@ -32,11 +30,9 @@ const cardsDataSlice = createSlice({
       .addCase(fetchQuestsAction.fulfilled, (state, action) => {
         state.cards = action.payload;
         state.isQuestsLoading = false;
-        state.hasError = false;
       })
       .addCase(fetchQuestsAction.rejected, (state) => {
         state.isQuestsLoading = false;
-        state.hasError = true;
       })
 
       .addCase(fetchSelectedQuestAction.pending, (state) => {
@@ -45,15 +41,13 @@ const cardsDataSlice = createSlice({
       .addCase(fetchSelectedQuestAction.fulfilled, (state, action) => {
         state.selectedCard = action.payload;
         state.isQuestsLoading = false;
-        state.hasError = false;
       })
       .addCase(fetchSelectedQuestAction.rejected, (state) => {
         state.isQuestsLoading = false;
-        state.hasError = true;
       });
+
   }
 });
-
 
 export {
   cardsDataSlice,
