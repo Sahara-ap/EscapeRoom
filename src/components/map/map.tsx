@@ -1,12 +1,52 @@
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import L, { LeafletEvent } from 'leaflet';
 
-function Map() {
+import { TBookingData } from '../../types/types';
+
+// const CONTACTS = [59.96831, 30.31748];
+
+type TMapProps = {
+  page: 'contacts' | 'booking';
+  // coords?: Array<TBookingData['location']['coords']>;
+  places: Array<TBookingData['location']>
+}
+function Map({ page, places }: TMapProps) {
+  const settings = {
+    contacts: {
+      center: [59.96831, 30.31748] as const,
+      zoom: 15,
+    },
+    booking: {
+      center: [59.96831, 30.31748],
+      zoom: 10,
+    }
+  };
+
+  // const coords = places.map((place) => place.coords);
+  const ICON_DEFAULT = '../../../markup/img/svg/pin-default.svg';
+  const ICON_ACTIVE = '../../../markup/img/svg/pin-active.svg';
+
+  const activeIcon = L.icon({
+    iconUrl: ICON_ACTIVE,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40]
+  })
+  const defaultIcon = L.icon({
+    iconUrl: ICON_DEFAULT,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40]
+  })
+
+  function handleMarkerClick(event: LeafletEvent) {
+    console.log('event', event.target.options.title)
+    event.target.setIcon(activeIcon)
+  }
   return (
 
     <MapContainer
       center={[59.96831, 30.31748]}
-      zoom={15}
+      zoom={settings[page].zoom}
       scrollWheelZoom={false}
       style={{ height: '100%', width: '100%' }}
     >
@@ -14,11 +54,34 @@ function Map() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         url='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
       />
-      <Marker position={[59.96831, 30.31748]}>
-        <Popup>
-          Escape Room <br /> .
-        </Popup>
-      </Marker>
+      {
+        page !== 'booking' &&
+        <Marker
+          position={[59.96831, 30.31748]}
+          icon={defaultIcon}
+        >
+          <Popup>
+            Escape Room <br /> .
+          </Popup>
+        </Marker>
+      }
+
+      {places?.map((place) => (
+        <Marker
+          key={window.crypto.randomUUID()}
+          position={place.coords}
+          eventHandlers={{
+            click: handleMarkerClick
+          }}
+          icon={defaultIcon}
+
+        >
+          <Popup>
+            {place.address} <br /> .
+          </Popup>
+        </Marker>
+      ))}
+
     </MapContainer>
 
   );

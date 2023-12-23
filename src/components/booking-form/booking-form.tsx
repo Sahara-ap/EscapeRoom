@@ -1,14 +1,17 @@
 import { TBookingData } from '../../types/types';
 
 type TBookingFormProps = {
-  data: TBookingData[];
+  questLocations: TBookingData[];
 }
 
-function BookingForm({data}: TBookingFormProps): JSX.Element {
+function BookingForm({ questLocations }: TBookingFormProps): JSX.Element {
 
+const locationsAmount = questLocations.length;
 
-  const todaySlots = data.map((item) => item.slots.today);
-  const tomorrowSlots = data.map((item) => item.slots.tomorrow);
+  const todaySlots = questLocations.map((item) => item.slots.today);
+  console.log('todaySlots', todaySlots);
+
+  const tomorrowSlots = questLocations.map((item) => item.slots.tomorrow);
 
   return (
     <form className="booking-form" action="https://echo.htmlacademy.ru/" method="post">
@@ -17,7 +20,7 @@ function BookingForm({data}: TBookingFormProps): JSX.Element {
         <fieldset className="booking-form__date-section">
           <legend className="booking-form__date-title">Сегодня</legend>
           <div className="booking-form__date-inner-wrapper">
-            {todaySlots.map((slot) => (
+            {todaySlots[0].map((item) => (
               <label key={window.crypto.randomUUID()} className="custom-radio booking-form__date">
                 <input
                   type="radio"
@@ -28,15 +31,22 @@ function BookingForm({data}: TBookingFormProps): JSX.Element {
                   defaultChecked={false}
                   disabled={false}
                 />
-                <span className="custom-radio__label">{slot[0].time}</span>
+
+                <span
+                  className="custom-radio__label"
+                >
+                  {item.time}
+                </span>
               </label>
             ))}
+
           </div>
 
         </fieldset>
         <fieldset className="booking-form__date-section">
           <legend className="booking-form__date-title">Завтра</legend>
           <div className="booking-form__date-inner-wrapper">
+
             <label className="custom-radio booking-form__date">
               <input
                 type="radio"

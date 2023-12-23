@@ -47,7 +47,7 @@ function ContactsPage(): JSX.Element {
             <div className="contacts__map">
               <div className="map" >
                 <div className="map__container">
-                  <Map />
+                  <Map page='contacts'/>
                 </div>
               </div>
             </div>

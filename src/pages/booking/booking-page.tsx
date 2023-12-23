@@ -34,6 +34,8 @@ function BookingPage(): JSX.Element {
   const bookingData = useAppSelector(getBookingData);
   console.log('bookingData', bookingData);
 
+  const locationCoords = bookingData.map((item) => item.location);
+
   if (hasError) {
     return <ErrorPage page='quest' />;
   }
@@ -43,7 +45,7 @@ function BookingPage(): JSX.Element {
   return (
     <>
       <Header page={AppRoute.Booking} isExtendedNav />
-      {selectedQuest &&
+      {selectedQuest && bookingData &&
         <main className="page-content decorated-page">
           <div className="decorated-page__decor" aria-hidden="true">
             <picture>
@@ -69,12 +71,17 @@ function BookingPage(): JSX.Element {
             <div className="page-content__item">
               <div className="booking-map">
                 <div className="map">
-                  <div className="map__container"><Map /></div>
+                  <div className="map__container">
+                    <Map
+                      page={'booking'}
+                      places={locationCoords}
+                    />
+                  </div>
                 </div>
                 <p className="booking-map__address">Вы&nbsp;выбрали: наб. реки Карповки&nbsp;5, лит&nbsp;П, м. Петроградская</p>
               </div>
             </div>
-            <BookingForm data={bookingData} />
+            <BookingForm questLocations={bookingData} />
           </div>
         </main>}
     </>
