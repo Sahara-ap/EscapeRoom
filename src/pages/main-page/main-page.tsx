@@ -14,6 +14,7 @@ import { FilterLevels } from '../../components/filters/filter-levels';
 import { fetchQuestsAction } from '../../store/api-actions';
 import ErrorPage from '../error-page/error-page';
 import { Preloader } from '../../components/preloader/preloader';
+import { EmptyMain } from '../../components/empty-main/empty-main';
 
 
 function MainPage(): JSX.Element {
@@ -55,10 +56,11 @@ function MainPage(): JSX.Element {
       return card.level === level;
     }
   });
+  const cardsIsEmpty = cardListLevel.length === 0;
 
 
   if (hasError) {
-    return <ErrorPage page='main'/>;
+    return <ErrorPage page='main' />;
   }
   if (isLoading) {
     return <Preloader />;
@@ -79,10 +81,15 @@ function MainPage(): JSX.Element {
               <FilterLevels cb={getLevelFilter} />
             </form>
           </div>
-          <h2 className="title visually-hidden">Выберите квест</h2>
-          <div className="cards-grid">
-            <CardList cards={cardListLevel} cb={getCardId} />
-          </div>
+          {cardsIsEmpty
+            ? <EmptyMain />
+            :
+            <>
+              <h2 className="title visually-hidden">Выберите квест</h2>
+              <div className="cards-grid">
+                <CardList cards={cardListLevel} cb={getCardId} />
+              </div>
+            </>}
         </div>
       </main>
     </>
