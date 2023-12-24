@@ -3,15 +3,20 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import L, { LeafletEvent } from 'leaflet';
 
 import { TBookingData } from '../../types/types';
+import { useState } from 'react';
 
 // const CONTACTS = [59.96831, 30.31748];
 
 type TMapProps = {
   page: 'contacts' | 'booking';
   // coords?: Array<TBookingData['location']['coords']>;
-  places: Array<TBookingData['location']>
+  // places: Array<TBookingData['location']>
+  places: TBookingData[];
+  cb?: (placeId) => void;
 }
-function Map({ page, places }: TMapProps) {
+function Map({ page, places, cb }: TMapProps) {
+
+
   const settings = {
     contacts: {
       center: [59.96831, 30.31748] as const,
@@ -31,17 +36,20 @@ function Map({ page, places }: TMapProps) {
     iconUrl: ICON_ACTIVE,
     iconSize: [40, 40],
     iconAnchor: [20, 40]
-  })
+  });
   const defaultIcon = L.icon({
     iconUrl: ICON_DEFAULT,
     iconSize: [40, 40],
     iconAnchor: [20, 40]
-  })
+  });
 
-  function handleMarkerClick(event: LeafletEvent) {
-    console.log('event', event.target.options.title)
-    event.target.setIcon(activeIcon)
+  function handleMarkerClick(id: TBookingData['id']) {
+    if (cb) {
+      cb(id);
+    }
+    // event.target.setIcon(activeIcon)
   }
+  
   return (
 
     <MapContainer
@@ -66,18 +74,18 @@ function Map({ page, places }: TMapProps) {
         </Marker>
       }
 
-      {places?.map((place) => (
+      {places.map((place) => (
         <Marker
           key={window.crypto.randomUUID()}
-          position={place.coords}
+          position={place.location.coords}
           eventHandlers={{
-            click: handleMarkerClick
+            click: () => handleMarkerClick(place.id)
           }}
           icon={defaultIcon}
 
         >
           <Popup>
-            {place.address} <br /> .
+            {place.location.address} <br /> .
           </Popup>
         </Marker>
       ))}

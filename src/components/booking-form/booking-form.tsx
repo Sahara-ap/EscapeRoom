@@ -2,13 +2,15 @@ import { TBookingData } from '../../types/types';
 
 type TBookingFormProps = {
   questLocations: TBookingData[];
+  placeId: TBookingData['id'];
 }
 
-function BookingForm({ questLocations }: TBookingFormProps): JSX.Element {
+function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Element {
 
-const locationsAmount = questLocations.length;
+  // const locationsAmount = questLocations.length;
+  const todaySlotsDefault = questLocations.map((item) => item.slots.today)[0];
+  const todaySlots = questLocations.find((questLocation) => questLocation.id === placeId)?.slots.today ?? todaySlotsDefault;
 
-  const todaySlots = questLocations.map((item) => item.slots.today);
   console.log('todaySlots', todaySlots);
 
   const tomorrowSlots = questLocations.map((item) => item.slots.tomorrow);
@@ -22,7 +24,7 @@ const locationsAmount = questLocations.length;
     peopleCount: 3,
     placeId: ''
   };
-  
+
 
   return (
     <form className="booking-form" action="https://echo.htmlacademy.ru/" method="post">
@@ -31,7 +33,7 @@ const locationsAmount = questLocations.length;
         <fieldset className="booking-form__date-section">
           <legend className="booking-form__date-title">Сегодня</legend>
           <div className="booking-form__date-inner-wrapper">
-            {todaySlots[0].map((item) => (
+            {todaySlots.map((item) => (
               <label key={window.crypto.randomUUID()} className="custom-radio booking-form__date">
                 <input
                   type="radio"

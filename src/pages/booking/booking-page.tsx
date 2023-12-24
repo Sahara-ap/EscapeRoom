@@ -9,32 +9,41 @@ import { getHasError } from '../../store/app/app.selectors';
 import { getBookingData, isBookingDataLoading } from '../../store/booking/booking-data-selectors';
 import { getSelectedCard } from '../../store/cards/cards-selectors';
 import ErrorPage from '../error-page/error-page';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchBookingData } from '../../store/api-actions/booking-api-actions';
 import { fetchSelectedQuestAction } from '../../store/api-actions/api-actions';
+import { TBookingData } from '../../types/types';
 
 function BookingPage(): JSX.Element {
-  const { id } = useParams();
+  const [placeId, setPlaceId] = useState('');
+  const { id: questId } = useParams();
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (id) {
-      dispatch(fetchBookingData(id));
+    if (questId) {
+      dispatch(fetchBookingData(questId));
     }
-  }, [dispatch, id]);
+  }, [dispatch, questId]);
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchSelectedQuestAction(id));
+    if (questId) {
+      dispatch(fetchSelectedQuestAction(questId));
     }
-  }, [dispatch, id]);
+  }, [dispatch, questId]);
 
   const hasError = useAppSelector(getHasError);
   const isLoading = useAppSelector(isBookingDataLoading);
-  const selectedQuest = useAppSelector(getSelectedCard);
+
   const bookingData = useAppSelector(getBookingData);
+  const selectedQuest = useAppSelector(getSelectedCard);
   console.log('bookingData', bookingData);
 
-  const locationCoords = bookingData.map((item) => item.location);
+  // const locationCoords = bookingData.map((item) => item.location);
+  function getPlaceId(id: TBookingData['id']) {
+    setPlaceId(id);
+  }
+
+  const selectedPlaceDefault = bookingData[0]?.location;
+  const selectedPlace = bookingData.find((item) => item.id === placeId)?.location ?? selectedPlaceDefault;
 
   if (hasError) {
     return <ErrorPage page='quest' />;
@@ -74,14 +83,15 @@ function BookingPage(): JSX.Element {
                   <div className="map__container">
                     <Map
                       page={'booking'}
-                      places={locationCoords}
+                      places={bookingData}
+                      cb={getPlaceId}
                     />
                   </div>
                 </div>
-                <p className="booking-map__address">Вы&nbsp;выбрали: наб. реки Карповки&nbsp;5, лит&nbsp;П, м. Петроградская</p>
+                <p className="booking-map__address">Вы&nbsp;выбрали: {selectedPlace.address}</p>
               </div>
             </div>
-            <BookingForm questLocations={bookingData} />
+            <BookingForm questLocations={bookingData} placeId={placeId}/>
           </div>
         </main>}
     </>
