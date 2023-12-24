@@ -56,7 +56,7 @@ function BookingPage(): JSX.Element {
   return (
     <>
       <Header page={AppRoute.Booking} isExtendedNav />
-      {selectedQuest && bookingData &&
+      {selectedQuest && selectedPlace &&
         <main className="page-content decorated-page">
           <div className="decorated-page__decor" aria-hidden="true">
             <picture>

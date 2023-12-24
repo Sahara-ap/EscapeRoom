@@ -1,28 +1,25 @@
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import L, { LeafletEvent } from 'leaflet';
+import L from 'leaflet';
 
 import { TBookingData } from '../../types/types';
-import { useState } from 'react';
-import { useAppDispatch } from '../../hooks/store-hooks';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { setPlaceId } from '../../store/booking-form/booking-form-slice';
+import { getPlaceId } from '../../store/booking-form/booking-form-selectors';
 
-// const CONTACTS = [59.96831, 30.31748];
 
 type TMapProps = {
   page: 'contacts' | 'booking';
-  // coords?: Array<TBookingData['location']['coords']>;
-  // places: Array<TBookingData['location']>
   places: TBookingData[];
-  // cb?: (placeId) => void;
 }
 function Map({ page, places }: TMapProps) {
   const dispatch = useAppDispatch();
-
+  const placeIdStore = useAppSelector(getPlaceId);
 
   const settings = {
     contacts: {
-      center: [59.96831, 30.31748] as const,
+      center: [59.96831, 30.31748],
       zoom: 15,
     },
     booking: {
@@ -31,7 +28,6 @@ function Map({ page, places }: TMapProps) {
     }
   };
 
-  // const coords = places.map((place) => place.coords);
   const ICON_DEFAULT = '../../../markup/img/svg/pin-default.svg';
   const ICON_ACTIVE = '../../../markup/img/svg/pin-active.svg';
 
@@ -46,9 +42,13 @@ function Map({ page, places }: TMapProps) {
     iconAnchor: [20, 40]
   });
 
+  useEffect(() => {
+    const defaultPlaceId = places[0].id;
+    dispatch(setPlaceId(defaultPlaceId));
+  }, [places, dispatch]);
+
   function handleMarkerClick(id: TBookingData['id']) {
     dispatch(setPlaceId(id));
-    // event.target.setIcon(activeIcon)
   }
 
   return (
@@ -64,7 +64,7 @@ function Map({ page, places }: TMapProps) {
         url='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
       />
       {
-        page !== 'booking' &&
+        page === 'contacts' &&
         <Marker
           position={[59.96831, 30.31748]}
           icon={defaultIcon}
@@ -75,21 +75,25 @@ function Map({ page, places }: TMapProps) {
         </Marker>
       }
 
-      {places.map((place) => (
-        <Marker
-          key={window.crypto.randomUUID()}
-          position={place.location.coords}
-          eventHandlers={{
-            click: () => handleMarkerClick(place.id)
-          }}
-          icon={defaultIcon}
-
-        >
-          <Popup>
-            {place.location.address} <br /> .
-          </Popup>
-        </Marker>
-      ))}
+      {page === 'booking' &&
+        places.map((place) => (
+          <Marker
+            key={window.crypto.randomUUID()}
+            position={place.location.coords}
+            eventHandlers={{
+              click: () => handleMarkerClick(place.id)
+            }}
+            icon={
+              place.id === placeIdStore
+                ? activeIcon
+                : defaultIcon
+            }
+          >
+            <Popup>
+              {place.location.address} <br /> .
+            </Popup>
+          </Marker>
+        ))}
 
     </MapContainer>
 
