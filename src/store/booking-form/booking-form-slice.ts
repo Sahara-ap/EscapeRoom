@@ -1,21 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../consts';
-import { TBookingQuestResponseInfo } from '../../types/types';
+import { TBookingData, TBookingQuestResponseInfo } from '../../types/types';
 import { sendBookingData } from '../api-actions/booking-api-actions';
 
 type TBookingFormSlice = {
   bookingResponse: TBookingQuestResponseInfo | null;
   isBookingSending: boolean;
+  placeId: TBookingData['id'];
 }
 const initialState: TBookingFormSlice = {
   bookingResponse: null,
-  isBookingSending: false
+  isBookingSending: false,
+  placeId: '',
 };
 
 const bookingFormSlice = createSlice({
   name: NameSpace.BookingForm,
   initialState,
-  reducers: {},
+  reducers: {
+    setPlaceId: (state, action: PayloadAction<TBookingData['id']>) => {
+      state.placeId = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(sendBookingData.pending, (state) => {
@@ -31,6 +37,9 @@ const bookingFormSlice = createSlice({
   }
 });
 
+const {setPlaceId} = bookingFormSlice.actions;
+
 export {
   bookingFormSlice,
+  setPlaceId,
 };

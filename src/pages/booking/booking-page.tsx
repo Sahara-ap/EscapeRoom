@@ -13,9 +13,11 @@ import { useEffect, useState } from 'react';
 import { fetchBookingData } from '../../store/api-actions/booking-api-actions';
 import { fetchSelectedQuestAction } from '../../store/api-actions/api-actions';
 import { TBookingData } from '../../types/types';
+import { getPlaceId } from '../../store/booking-form/booking-form-selectors';
 
 function BookingPage(): JSX.Element {
-  const [placeId, setPlaceId] = useState('');
+  // const [placeId, setPlaceId] = useState('');
+  const placeId = useAppSelector(getPlaceId);
   const { id: questId } = useParams();
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -38,9 +40,9 @@ function BookingPage(): JSX.Element {
   console.log('bookingData', bookingData);
 
   // const locationCoords = bookingData.map((item) => item.location);
-  function getPlaceId(id: TBookingData['id']) {
-    setPlaceId(id);
-  }
+  // function getPlaceId(id: TBookingData['id']) {
+  //   setPlaceId(id);
+  // }
 
   const selectedPlaceDefault = bookingData[0]?.location;
   const selectedPlace = bookingData.find((item) => item.id === placeId)?.location ?? selectedPlaceDefault;
@@ -84,7 +86,7 @@ function BookingPage(): JSX.Element {
                     <Map
                       page={'booking'}
                       places={bookingData}
-                      cb={getPlaceId}
+                      // cb={getPlaceId}
                     />
                   </div>
                 </div>

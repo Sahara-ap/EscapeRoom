@@ -4,6 +4,8 @@ import L, { LeafletEvent } from 'leaflet';
 
 import { TBookingData } from '../../types/types';
 import { useState } from 'react';
+import { useAppDispatch } from '../../hooks/store-hooks';
+import { setPlaceId } from '../../store/booking-form/booking-form-slice';
 
 // const CONTACTS = [59.96831, 30.31748];
 
@@ -12,9 +14,10 @@ type TMapProps = {
   // coords?: Array<TBookingData['location']['coords']>;
   // places: Array<TBookingData['location']>
   places: TBookingData[];
-  cb?: (placeId) => void;
+  // cb?: (placeId) => void;
 }
-function Map({ page, places, cb }: TMapProps) {
+function Map({ page, places }: TMapProps) {
+  const dispatch = useAppDispatch();
 
 
   const settings = {
@@ -44,12 +47,10 @@ function Map({ page, places, cb }: TMapProps) {
   });
 
   function handleMarkerClick(id: TBookingData['id']) {
-    if (cb) {
-      cb(id);
-    }
+    dispatch(setPlaceId(id));
     // event.target.setIcon(activeIcon)
   }
-  
+
   return (
 
     <MapContainer
