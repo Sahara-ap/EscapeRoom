@@ -44,8 +44,9 @@ const fetchMyQuestsAction = createAsyncThunk<TMyReservedQuest[], undefined, Thun
 
 const dropMyQuestAction = createAsyncThunk<void, string, ThunkAPI>(
   'cards/dropMyQuest',
-  async (reservationId, { extra: api }) => {
-    await api.get(`${APIRoute.MyQuests}/${reservationId}`);
+  async (reservationId, { dispatch, extra: api }) => {
+    await api.delete(`${APIRoute.MyQuests}/${reservationId}`);
+    dispatch(fetchMyQuestsAction());
   }
 );
 
