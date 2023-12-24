@@ -38,6 +38,12 @@ function translateDate(dateKey: TMyReservedQuest['date']) {
   return date[dateKey];
 }
 
+function convertTime(time: string) {
+  const convertedTime = (`${time.replace(':', 'h')}m`);
+  return convertedTime;
+}
+
+
 function processErrorHandle(message: string): void {
   store.dispatch(setError(message));
   store.dispatch(clearErrorAction());
@@ -47,5 +53,6 @@ export {
   translateLevelName,
   translateThemeName,
   translateDate,
+  convertTime,
   processErrorHandle,
 };

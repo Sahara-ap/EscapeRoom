@@ -13,8 +13,8 @@ const fetchBookingData = createAsyncThunk<TBookingData[], string, ThunkAPI>(
 
 const sendBookingData = createAsyncThunk<TBookingQuestResponseInfo, TPostArgument, ThunkAPI>(
   'booking/sendData',
-  async ({questId, formData}, {extra: api}) => {
-    const {data} = await api.post<TBookingQuestResponseInfo>(`${APIRoute.Quests}/${questId}/booking`, formData);
+  async ({questId, body}, {extra: api}) => {
+    const {data} = await api.post<TBookingQuestResponseInfo>(`${APIRoute.Quests}/${questId}/booking`, body);
     return data;
   }
 );

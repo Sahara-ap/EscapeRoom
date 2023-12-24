@@ -43,7 +43,7 @@ function Map({ page, places }: TMapProps) {
   });
 
   useEffect(() => {
-    const defaultPlaceId = places[0].id;
+    const defaultPlaceId = places[0]?.id;
     dispatch(setPlaceId(defaultPlaceId));
   }, [places, dispatch]);
 

@@ -66,7 +66,7 @@ type TBookingQuestPostInfo = {
 }
 type TPostArgument = {
   questId: string;
-  formData: TBookingQuestPostInfo;
+  body: TBookingQuestPostInfo;
 }
 type TBookingQuestResponseInfo = {
     'date': string;
