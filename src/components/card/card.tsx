@@ -8,18 +8,13 @@ import { TCard, TPartialMyReservedQuest } from '../../types/types';
 type TCardProps = {
   card: TCard;
   myCard?: TPartialMyReservedQuest;
-  cb?: (cardId: TCard['id']) => void;
 }
 
-function Card({ card, myCard, cb}: TCardProps): JSX.Element {
-  function handleCardClick() {
-    cb?.(card.id);
-  }
+function Card({ card, myCard}: TCardProps): JSX.Element {
 
   return (
     <div
       className="quest-card"
-      onClick={handleCardClick}
     >
       <div className="quest-card__img">
         <picture>

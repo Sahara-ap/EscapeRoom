@@ -8,7 +8,7 @@ import { CardList } from '../../components/card-list/card-list';
 import { getCards, isQuestsLoading } from '../../store/cards/cards-selectors';
 import { getHasError } from '../../store/app/app.selectors';
 
-import { TCard, TLevel, TTheme } from '../../types/types';
+import { TLevel, TTheme } from '../../types/types';
 import { FilterThemes } from '../../components/filters/filter-themes';
 import { FilterLevels } from '../../components/filters/filter-levels';
 import { fetchQuestsAction } from '../../store/api-actions/api-actions';
@@ -23,7 +23,6 @@ function MainPage(): JSX.Element {
   const hasError = useAppSelector(getHasError);
   const isLoading = useAppSelector(isQuestsLoading);
 
-  const [cardId, setCardId] = useState('');
   const [theme, setTheme] = useState('all');
   const [level, setLevel] = useState('any');
 
@@ -31,9 +30,6 @@ function MainPage(): JSX.Element {
     dispatch(fetchQuestsAction());
   }, [dispatch]);
 
-  function getCardId(cardIdentificator: TCard['id']) {
-    setCardId(cardIdentificator);
-  }
   function getThemeFilter(themeFilter: TTheme) {
     setTheme(themeFilter);
   }
@@ -87,7 +83,7 @@ function MainPage(): JSX.Element {
             <>
               <h2 className="title visually-hidden">Выберите квест</h2>
               <div className="cards-grid">
-                <CardList cards={cardListLevel} cb={getCardId} />
+                <CardList cards={cardListLevel} />
               </div>
             </>}
         </div>

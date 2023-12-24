@@ -4,10 +4,9 @@ import { Card } from '../card/card';
 type TCardListProps = {
   cards: TCard[];
   myCard?: TPartialMyReservedQuest[];
-  cb?: (cardId: TCard['id']) => void;
 }
 
-function CardList({ cards, myCard = [], cb }: TCardListProps): JSX.Element {
+function CardList({ cards, myCard = [] }: TCardListProps): JSX.Element {
   return (
     <>
       {
@@ -16,7 +15,6 @@ function CardList({ cards, myCard = [], cb }: TCardListProps): JSX.Element {
             key={card.id}
             card={card}
             myCard={myCard[index]}
-            cb={cb}
           />
         ))
       }

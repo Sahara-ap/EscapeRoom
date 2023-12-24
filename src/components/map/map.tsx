@@ -11,7 +11,7 @@ import { getPlaceId } from '../../store/booking-form/booking-form-selectors';
 
 type TMapProps = {
   page: 'contacts' | 'booking';
-  places: TBookingData[];
+  places?: TBookingData[];
 }
 function Map({ page, places }: TMapProps) {
   const dispatch = useAppDispatch();
@@ -43,8 +43,10 @@ function Map({ page, places }: TMapProps) {
   });
 
   useEffect(() => {
-    const defaultPlaceId = places[0]?.id;
-    dispatch(setPlaceId(defaultPlaceId));
+    if (places) {
+      const defaultPlaceId = places[0].id;
+      dispatch(setPlaceId(defaultPlaceId));
+    }
   }, [places, dispatch]);
 
   function handleMarkerClick(id: TBookingData['id']) {
@@ -70,12 +72,12 @@ function Map({ page, places }: TMapProps) {
           icon={defaultIcon}
         >
           <Popup>
-            Escape Room <br /> .
+            Escape Room <br />
           </Popup>
         </Marker>
       }
 
-      {page === 'booking' &&
+      {page === 'booking' && places &&
         places.map((place) => (
           <Marker
             key={window.crypto.randomUUID()}

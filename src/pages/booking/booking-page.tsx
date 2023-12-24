@@ -1,24 +1,26 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
+import { getBookingData, isBookingDataLoading } from '../../store/booking/booking-data-selectors';
+import { getHasError } from '../../store/app/app.selectors';
+import { getSelectedCard } from '../../store/cards/cards-selectors';
+import { fetchBookingData } from '../../store/api-actions/booking-api-actions';
+import { fetchSelectedQuestAction } from '../../store/api-actions/api-actions';
+import { getPlaceId } from '../../store/booking-form/booking-form-selectors';
+
 import { BookingForm } from '../../components/booking-form/booking-form';
 import { Header } from '../../components/header/header';
 import { Map } from '../../components/map/map';
 import { Preloader } from '../../components/preloader/preloader';
-import { AppRoute } from '../../consts';
-import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { getHasError } from '../../store/app/app.selectors';
-import { getBookingData, isBookingDataLoading } from '../../store/booking/booking-data-selectors';
-import { getSelectedCard } from '../../store/cards/cards-selectors';
 import ErrorPage from '../error-page/error-page';
-import { useEffect, useState } from 'react';
-import { fetchBookingData } from '../../store/api-actions/booking-api-actions';
-import { fetchSelectedQuestAction } from '../../store/api-actions/api-actions';
-import { TBookingData } from '../../types/types';
-import { getPlaceId } from '../../store/booking-form/booking-form-selectors';
+
+import { AppRoute } from '../../consts';
 
 function BookingPage(): JSX.Element {
-  // const [placeId, setPlaceId] = useState('');
   const placeId = useAppSelector(getPlaceId);
   const { id: questId } = useParams();
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (questId) {
@@ -37,12 +39,6 @@ function BookingPage(): JSX.Element {
 
   const bookingData = useAppSelector(getBookingData);
   const selectedQuest = useAppSelector(getSelectedCard);
-  console.log('bookingData', bookingData);
-
-  // const locationCoords = bookingData.map((item) => item.location);
-  // function getPlaceId(id: TBookingData['id']) {
-  //   setPlaceId(id);
-  // }
 
   const selectedPlaceDefault = bookingData[0]?.location;
   const selectedPlace = bookingData.find((item) => item.id === placeId)?.location ?? selectedPlaceDefault;
