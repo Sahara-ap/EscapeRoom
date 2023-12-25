@@ -6,6 +6,7 @@ import { translateDate, translateLevelName } from '../../utils';
 import { TCard, TPartialMyReservedQuest } from '../../types/types';
 import { useAppDispatch } from '../../hooks/store-hooks';
 import { dropMyQuestAction } from '../../store/api-actions/api-actions';
+import { setQuestId } from '../../store/cards/cards-slice';
 
 type TCardProps = {
   card: TCard;
@@ -24,6 +25,7 @@ function Card({ card, myCard }: TCardProps): JSX.Element {
   return (
     <div
       className="quest-card"
+      onClick={() => dispatch(setQuestId(card.id))}
     >
       <div className="quest-card__img">
         <picture>

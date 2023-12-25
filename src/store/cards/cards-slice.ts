@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { NameSpace } from '../../consts';
 import { fetchQuestsAction, fetchSelectedQuestAction } from '../api-actions/api-actions';
@@ -10,18 +10,24 @@ type TCardsDataState = {
   cards: TCard[];
   selectedCard: TSelectedCard | null;
   isQuestsLoading: boolean;
+  questId: TCard['id'];
 }
 
 const initialState: TCardsDataState = {
   cards: [],
   selectedCard: null,
   isQuestsLoading: true,
+  questId: ''
 };
 
 const cardsDataSlice = createSlice({
   name: NameSpace.Cards,
   initialState,
-  reducers: {},
+  reducers: {
+    setQuestId: (state, action:PayloadAction<TCard['id']>) => {
+      state.questId = action.payload;
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchQuestsAction.pending, (state) => {
@@ -49,6 +55,9 @@ const cardsDataSlice = createSlice({
   }
 });
 
+const {setQuestId} = cardsDataSlice.actions;
+
 export {
   cardsDataSlice,
+  setQuestId,
 };

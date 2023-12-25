@@ -6,6 +6,7 @@ import { Logo } from '../logo/logo';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getAuthStatus } from '../../store/user/user-selectors';
 import { logoutAction } from '../../store/api-actions/api-actions';
+import { setQuestId } from '../../store/cards/cards-slice';
 
 type THeaderProps = {
   page: AppRoute;
@@ -18,6 +19,7 @@ function Header({ page, isExtendedNav }: THeaderProps): JSX.Element {
 
   function handleButtonClick() {
     dispatch(logoutAction());
+    dispatch(setQuestId(''));
   }
 
   return (

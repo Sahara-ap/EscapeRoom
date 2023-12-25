@@ -5,6 +5,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { loginAction } from '../../store/api-actions/api-actions';
 import { getAuthStatus, getSendingLoginStatus } from '../../store/user/user-selectors';
+import { getQuestId } from '../../store/cards/cards-selectors';
 
 const MIN_PASSWORD_LENGTH = 3;
 const MAX_PASSWORD_LENGTH = 15;
@@ -14,6 +15,7 @@ function LoginPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthStatus);
   const sendingLoginStatus = useAppSelector(getSendingLoginStatus);
+  const questId = useAppSelector(getQuestId);
 
 
   const [email, setEmail] = useState('');
@@ -60,8 +62,12 @@ function LoginPage(): JSX.Element {
   }
 
 
-  if (authStatus === AuthStatus.Auth) {
+  if (authStatus === AuthStatus.Auth && (!questId)) {
     return <Navigate to={AppRoute.Main} />;
+  }
+
+  if ((authStatus === AuthStatus.Auth) && (questId)) {
+    return <Navigate to={`${AppRoute.Booking}/${questId}`} />;
   }
 
   return (
