@@ -97,7 +97,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
 
 
   useEffect(() => {
-    resetField('date');
+    resetField('time');
   }, [placeId, resetField]);
 
   return (
