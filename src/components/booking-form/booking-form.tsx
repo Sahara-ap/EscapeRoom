@@ -12,6 +12,17 @@ import { AppRoute, LoadingDataStatus } from '../../consts';
 
 import { TBookingData } from '../../types/types';
 import { setBookingSendingStatus } from '../../store/booking-form/booking-form-slice';
+import { useForm } from 'react-hook-form';
+
+type FormInputs = {
+  name: string;
+  phone: string;
+  contactPerson: string;
+  withChildren: boolean;
+  peopleCount: number;
+  'user-agreement': string;
+
+}
 
 type TBookingFormProps = {
   questLocations: TBookingData[];
@@ -96,17 +107,32 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
         dispatch(clearErrorAction());
 
     }
-
-    // return (() => dispatch(setBookingSendingStatus(LoadingDataStatus.Unsent)))
   }, [sendingStatus, dispatch, navigate]);
 
+
+
+
+
+
+  function sumbitHandler
+
+  const {
+    register,
+    handleSubmit,
+    formState: {errors},
+    resetField,
+  } = useForm<FormInputs>();
+
+  useEffect(() => {
+    resetField('dateq')
+  }, [questId, resetField])
 
   return (
     <form
       className="booking-form"
       action="https://echo.htmlacademy.ru/"
       method="post"
-      onSubmit={handleFormSubmit}
+      onSubmit={handleSubmit()}
     >
       <fieldset className="booking-form__section">
         <legend className="visually-hidden">Выбор даты и времени</legend>
@@ -116,15 +142,16 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
             {todaySlots.map((item) => (
               <label key={window.crypto.randomUUID()} className="custom-radio booking-form__date">
                 <input
+                  {...register('dateq')}
                   type="radio"
                   id={`today${convertTime(item.time)}`}
                   value={item.time}
                   data-date='today'
-                  name="date"
+                  // name="date"
                   required
-                  checked={(item.time === time) && (date === 'today')}
+                  // checked={(item.time === time) && (date === 'today')}
                   disabled={!item.isAvailable}
-                  onChange={handleSlotChange}
+                  // onChange={handleSlotChange}
                 />
 
                 <span
@@ -144,15 +171,16 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
             {tomorrowSlots.map((item) => (
               <label key={window.crypto.randomUUID()} className="custom-radio booking-form__date">
                 <input
+                  {...register('dateq')}
                   type="radio"
                   id={`tomorrow${convertTime(item.time)}`}
                   value={item.time}
                   data-date='tomorrow'
-                  name="date"
+                  // name="date"
                   required
-                  checked={(item.time === time) && (date === 'tomorrow')}
+                  // checked={(item.time === time) && (date === 'tomorrow')}
                   disabled={!item.isAvailable}
-                  onChange={handleSlotChange}
+                  // onChange={handleSlotChange}
                 />
                 <span className="custom-radio__label">{item.time}</span>
               </label>
@@ -166,9 +194,10 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="name">Ваше имя</label>
           <input
+            {...register('contactPerson')}
             type="text"
             id="name"
-            name="name"
+            // name="name"
             placeholder="Имя"
             required
             pattern="[А-Яа-яЁёA-Za-z'- ]{1,}"
@@ -178,9 +207,10 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="tel">Контактный телефон</label>
           <input
+            {...register('phone')}
             type="tel"
             id="tel"
-            name="tel"
+            // name="tel"
             placeholder="Телефон"
             required
             pattern="[0-9]{10,}"
@@ -190,9 +220,10 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="person">Количество участников</label>
           <input
+            {...register('peopleCount')}
             type="number"
             id="person"
-            name="person"
+            // name="person"
             placeholder="Количество участников"
             required
             onChange={handlePeopleCountChange}
@@ -200,9 +231,10 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
         </div>
         <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
           <input
+            {...register('withChildren')}
             type="checkbox"
             id="children"
-            name="children"
+            // name="children"
             defaultChecked
             onChange={handleHasChildrenChange}
           />
@@ -217,6 +249,7 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
       <button className="btn btn--accent btn--cta booking-form__submit" type="submit">Забронировать</button>
       <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">
         <input
+          {...register('user-agreement')}
           type="checkbox"
           id="id-order-agreement"
           name="user-agreement"
