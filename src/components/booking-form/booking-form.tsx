@@ -119,18 +119,23 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isDirty, isValid },
     resetField,
-  } = useForm<FormInputs>();
+  } = useForm<FormInputs>({
+    mode: 'onBlur'
+  });
 
 
   const submit: SubmitHandler<FormInputs> = (formData, event) => {
     console.log(formData);
     console.log(event);
     event?.preventDefault();
-    if (questId) {
-      dispatch(sendBookingData({ questId, body }));
+    const body = {
+
     }
+    // if (questId) {
+    //   dispatch(sendBookingData({ questId, body }));
+    // }
   }
   const error: SubmitErrorHandler<FormInputs> = (errorData) => {
     console.log(errorData);
@@ -141,7 +146,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
 
 
   useEffect(() => {
-    resetField('dateq')
+    resetField('date')
   }, [placeId, resetField]);
 
   return (
@@ -150,7 +155,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
       action="https://echo.htmlacademy.ru/"
       method="post"
       onSubmit={(event) => void handleSubmit(submit)(event)}
-      // onSubmit={void handleSubmit(submit)}
+    // onSubmit={void handleSubmit(submit)}
 
     >
       <fieldset className="booking-form__section">
@@ -161,7 +166,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             {todaySlots.map((item) => (
               <label key={item.time} className="custom-radio booking-form__date">
                 <input
-                  {...register('dateq', { required: true })}
+                  {...register('date', { required: 'Обязательное поле' })}
                   type="radio"
                   id={`today${convertTime(item.time)}`}
                   value={item.time}
@@ -170,7 +175,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
                   // required
                   // checked={(item.time === time) && (date === 'today')}
                   disabled={!item.isAvailable}
-                onChange={handleSlotChange}
+                  onChange={handleSlotChange}
                 />
 
                 <span
@@ -190,7 +195,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             {tomorrowSlots.map((item) => (
               <label key={item.time} className="custom-radio booking-form__date">
                 <input
-                  {...register('dateq', { required: true })}
+                  {...register('date', { required: 'Обязательное поле' })}
                   type="radio"
                   id={`tomorrow${convertTime(item.time)}`}
                   value={item.time}
@@ -199,7 +204,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
                   // required
                   // checked={(item.time === time) && (date === 'tomorrow')}
                   disabled={!item.isAvailable}
-                onChange={handleSlotChange}
+                  onChange={handleSlotChange}
                 />
                 <span className="custom-radio__label">{item.time}</span>
               </label>
@@ -253,6 +258,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
                 value: maxPersons,
                 message: `Количество участников должно быть от ${minPersons} до ${maxPersons}`
               },
+              valueAsNumber: true
             })}
             type="number"
             id="person"
@@ -282,11 +288,17 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
         </label>
       </fieldset>
 
-      <button className="btn btn--accent btn--cta booking-form__submit" type="submit">Забронировать</button>
+      <button
+        className="btn btn--accent btn--cta booking-form__submit"
+        type="submit"
+        disabled={isSubmitting || !isDirty || !isValid}
+      >
+        Забронировать
+      </button>
 
       <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">
         <input
-          {...register('user-agreement', { required: 'Обязательное поле' })}
+          {...register('user-agreement', { required: 'Обязательное поле', shouldUnregister: true })}
           // {...register('agreement', { required: 'Обязательное поле' })}
           type="checkbox"
           id="id-order-agreement"
