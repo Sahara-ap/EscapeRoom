@@ -30,7 +30,7 @@ type TSelectedCard = {
   'previewImgWebp': string;
   'level': TLevel;
   'type': TTheme;
-  'peopleMinMax': [number, number?];
+  'peopleMinMax': [number, number];
   'description': string;
   'coverImg': string;
   'coverImgWebp': string;

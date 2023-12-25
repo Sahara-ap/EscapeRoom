@@ -88,7 +88,7 @@ function BookingPage(): JSX.Element {
                 <p className="booking-map__address">Вы&nbsp;выбрали: {selectedPlace.address}</p>
               </div>
             </div>
-            <BookingForm questLocations={bookingData} placeId={placeId}/>
+            <BookingForm questLocations={bookingData} selectedQuest={selectedQuest} placeId={placeId}/>
           </div>
         </main>}
     </>

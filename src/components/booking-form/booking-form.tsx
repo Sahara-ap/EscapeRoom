@@ -10,9 +10,9 @@ import { clearErrorAction } from '../../store/api-actions/api-actions';
 import { convertTime } from '../../utils';
 import { AppRoute, LoadingDataStatus } from '../../consts';
 
-import { TBookingData } from '../../types/types';
+import { TBookingData, TSelectedCard } from '../../types/types';
 import { setBookingSendingStatus } from '../../store/booking-form/booking-form-slice';
-import { useForm } from 'react-hook-form';
+import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 
 type FormInputs = {
   name: string;
@@ -26,10 +26,11 @@ type FormInputs = {
 
 type TBookingFormProps = {
   questLocations: TBookingData[];
+  selectedQuest: TSelectedCard;
   placeId: TBookingData['id'];
 }
 
-function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Element {
+function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -73,6 +74,7 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
   }
   function handlePeopleCountChange(event: ChangeEvent<HTMLInputElement>) {
     setPeopleCount(Number(event.target.value));
+    console.log(typeof event.target.value)
   }
   function handleHasChildrenChange(event: ChangeEvent<HTMLInputElement>) {
     setWithChildren(event.target.checked);
@@ -114,25 +116,42 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
 
 
 
-  function sumbitHandler
-
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     resetField,
   } = useForm<FormInputs>();
 
+
+  const submit: SubmitHandler<FormInputs> = (formData, event) => {
+    console.log(formData);
+    console.log(event);
+    event?.preventDefault();
+    if (questId) {
+      dispatch(sendBookingData({ questId, body }));
+    }
+  }
+  const error: SubmitErrorHandler<FormInputs> = (errorData) => {
+    console.log(errorData);
+
+  }
+
+  const [minPersons, maxPersons] = selectedQuest.peopleMinMax;
+
+
   useEffect(() => {
     resetField('dateq')
-  }, [questId, resetField])
+  }, [placeId, resetField]);
 
   return (
     <form
       className="booking-form"
       action="https://echo.htmlacademy.ru/"
       method="post"
-      onSubmit={handleSubmit()}
+      onSubmit={(event) => void handleSubmit(submit)(event)}
+      // onSubmit={void handleSubmit(submit)}
+
     >
       <fieldset className="booking-form__section">
         <legend className="visually-hidden">Выбор даты и времени</legend>
@@ -140,18 +159,18 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
           <legend className="booking-form__date-title">Сегодня</legend>
           <div className="booking-form__date-inner-wrapper">
             {todaySlots.map((item) => (
-              <label key={window.crypto.randomUUID()} className="custom-radio booking-form__date">
+              <label key={item.time} className="custom-radio booking-form__date">
                 <input
-                  {...register('dateq')}
+                  {...register('dateq', { required: true })}
                   type="radio"
                   id={`today${convertTime(item.time)}`}
                   value={item.time}
                   data-date='today'
                   // name="date"
-                  required
+                  // required
                   // checked={(item.time === time) && (date === 'today')}
                   disabled={!item.isAvailable}
-                  // onChange={handleSlotChange}
+                onChange={handleSlotChange}
                 />
 
                 <span
@@ -169,18 +188,18 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
           <legend className="booking-form__date-title">Завтра</legend>
           <div className="booking-form__date-inner-wrapper">
             {tomorrowSlots.map((item) => (
-              <label key={window.crypto.randomUUID()} className="custom-radio booking-form__date">
+              <label key={item.time} className="custom-radio booking-form__date">
                 <input
-                  {...register('dateq')}
+                  {...register('dateq', { required: true })}
                   type="radio"
                   id={`tomorrow${convertTime(item.time)}`}
                   value={item.time}
                   data-date='tomorrow'
                   // name="date"
-                  required
+                  // required
                   // checked={(item.time === time) && (date === 'tomorrow')}
                   disabled={!item.isAvailable}
-                  // onChange={handleSlotChange}
+                onChange={handleSlotChange}
                 />
                 <span className="custom-radio__label">{item.time}</span>
               </label>
@@ -194,41 +213,57 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="name">Ваше имя</label>
           <input
-            {...register('contactPerson')}
+            {...register('contactPerson', { required: 'Необходимо заполнить' })}
             type="text"
             id="name"
             // name="name"
             placeholder="Имя"
-            required
-            pattern="[А-Яа-яЁёA-Za-z'- ]{1,}"
+            // required
+            pattern="[А-Яа-яЁёA-Za-z'\- ]{1,}"
             onChange={handleNameChange}
           />
+          {errors.contactPerson ? <p style={{ color: 'aqua' }}>{errors.contactPerson.message}</p> : null}
         </div>
+
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="tel">Контактный телефон</label>
           <input
-            {...register('phone')}
+            {...register('phone', { required: 'Необходимо заполнить в формате 00000000' })}
             type="tel"
             id="tel"
             // name="tel"
             placeholder="Телефон"
-            required
+            // required
             pattern="[0-9]{10,}"
             onChange={handlePhoneChange}
           />
+          {errors.phone ? <p style={{ color: 'aqua' }}>{errors.phone.message}</p> : null}
         </div>
+
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="person">Количество участников</label>
           <input
-            {...register('peopleCount')}
+            {...register('peopleCount', {
+              required: `Количество участников должно быть от ${minPersons} до ${maxPersons}`,
+              min: {
+                value: minPersons,
+                message: `Количество участников должно быть от ${minPersons} до ${maxPersons}`
+              },
+              max: {
+                value: maxPersons,
+                message: `Количество участников должно быть от ${minPersons} до ${maxPersons}`
+              },
+            })}
             type="number"
             id="person"
             // name="person"
-            placeholder="Количество участников"
-            required
+            placeholder={`Количество участников от ${minPersons} до ${maxPersons}`}
+            // required
             onChange={handlePeopleCountChange}
           />
+          {errors.peopleCount ? <p style={{ color: 'aqua' }}>{errors.peopleCount.message}</p> : null}
         </div>
+
         <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--children">
           <input
             {...register('withChildren')}
@@ -246,14 +281,17 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
           <span className="custom-checkbox__label">Со&nbsp;мной будут дети</span>
         </label>
       </fieldset>
+
       <button className="btn btn--accent btn--cta booking-form__submit" type="submit">Забронировать</button>
+
       <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">
         <input
-          {...register('user-agreement')}
+          {...register('user-agreement', { required: 'Обязательное поле' })}
+          // {...register('agreement', { required: 'Обязательное поле' })}
           type="checkbox"
           id="id-order-agreement"
           name="user-agreement"
-          required
+        // required
         />
         <span className="custom-checkbox__icon" >
           <svg width="20" height="17" aria-hidden="true">
@@ -264,6 +302,7 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
           <Link className="link link--active-silver link--underlined" to="#">правилами обработки персональных данных</Link>&nbsp;и пользовательским соглашением
         </span>
       </label>
+      {errors['user-agreement'] ? <p style={{ color: 'aqua' }}>{errors['user-agreement'].message}</p> : null}
     </form>
   );
 }
