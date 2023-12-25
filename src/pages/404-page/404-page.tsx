@@ -8,7 +8,7 @@ function NotFoundPage(): JSX.Element {
   return (
     <div className={`${styles.notfound} decorated-page`}>
       <Helmet>
-        <title>{'Escape-Room - Not Found'}</title>
+        <title>{'Not Found - Escape Room'}</title>
       </Helmet>
       <h1 className={styles.title}>404 NOT FOUND</h1>
       <h3>

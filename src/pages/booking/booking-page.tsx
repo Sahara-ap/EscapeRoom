@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getBookingData, isBookingDataLoading } from '../../store/booking/booking-data-selectors';
@@ -51,6 +52,9 @@ function BookingPage(): JSX.Element {
   }
   return (
     <>
+      <Helmet>
+        <title>{'Бронирование квеста - Escape Room'}</title>
+      </Helmet>
       <Header page={AppRoute.Booking} isExtendedNav />
       {selectedQuest && selectedPlace &&
         <main className="page-content decorated-page">
@@ -88,7 +92,7 @@ function BookingPage(): JSX.Element {
                 <p className="booking-map__address">Вы&nbsp;выбрали: {selectedPlace.address}</p>
               </div>
             </div>
-            <BookingForm questLocations={bookingData} selectedQuest={selectedQuest} placeId={placeId}/>
+            <BookingForm questLocations={bookingData} selectedQuest={selectedQuest} placeId={placeId} />
           </div>
         </main>}
     </>

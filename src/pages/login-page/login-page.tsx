@@ -1,11 +1,14 @@
 import { Link, Navigate } from 'react-router-dom';
-import { Header } from '../../components/header/header';
-import { AppRoute, AuthStatus, LoadingDataStatus } from '../../consts';
+import { Helmet } from 'react-helmet-async';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { loginAction } from '../../store/api-actions/api-actions';
 import { getAuthStatus, getSendingLoginStatus } from '../../store/user/user-selectors';
 import { getQuestId } from '../../store/cards/cards-selectors';
+
+import { Header } from '../../components/header/header';
+import { AppRoute, AuthStatus, LoadingDataStatus } from '../../consts';
 
 const MIN_PASSWORD_LENGTH = 3;
 const MAX_PASSWORD_LENGTH = 15;
@@ -76,6 +79,9 @@ function LoginPage(): JSX.Element {
 
   return (
     <>
+      <Helmet>
+        <title>{'Авторизация - Escape Room'}</title>
+      </Helmet>
       <Header page={AppRoute.Login} />
       <main className="decorated-page login">
         <div className="decorated-page__decor" aria-hidden="true">

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { fetchMyQuestsAction } from '../../store/api-actions/api-actions';
@@ -58,6 +59,9 @@ function MyQuestsPage(): JSX.Element {
   }
   return (
     <>
+      <Helmet>
+        <title>{'Мои бронирования - Escape Room'}</title>
+      </Helmet>
       <Header page={AppRoute.MyQuests} isExtendedNav />
       <main className="page-content decorated-page">
         <div className="decorated-page__decor" aria-hidden="true">

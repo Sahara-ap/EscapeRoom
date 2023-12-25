@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
-import { AppRoute } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
+import { getCards, isQuestsLoading } from '../../store/cards/cards-selectors';
+import { getHasError } from '../../store/app/app.selectors';
+import { fetchQuestsAction } from '../../store/api-actions/api-actions';
 
 import { Header } from '../../components/header/header';
 import { CardList } from '../../components/card-list/card-list';
-import { getCards, isQuestsLoading } from '../../store/cards/cards-selectors';
-import { getHasError } from '../../store/app/app.selectors';
-
-import { TLevel, TTheme } from '../../types/types';
 import { FilterThemes } from '../../components/filters/filter-themes';
 import { FilterLevels } from '../../components/filters/filter-levels';
-import { fetchQuestsAction } from '../../store/api-actions/api-actions';
 import ErrorPage from '../error-page/error-page';
 import { Preloader } from '../../components/preloader/preloader';
 import { EmptyMain } from '../../components/empty-main/empty-main';
+
+import { TLevel, TTheme } from '../../types/types';
+import { AppRoute, FilterValue } from '../../consts';
 
 
 function MainPage(): JSX.Element {
@@ -38,7 +39,7 @@ function MainPage(): JSX.Element {
   }
 
   const cardListTheme = cardList.filter((card) => {
-    if (theme === 'all') {
+    if (theme === FilterValue.All) {
       return true;
     } else {
       return card.type === theme;
@@ -46,7 +47,7 @@ function MainPage(): JSX.Element {
 
   });
   const cardListLevel = cardListTheme.filter((card) => {
-    if (level === 'any') {
+    if (level === FilterValue.Any) {
       return true;
     } else {
       return card.level === level;
@@ -63,6 +64,9 @@ function MainPage(): JSX.Element {
   }
   return (
     <>
+      <Helmet>
+        <title>{'Escape Room'}</title>
+      </Helmet>
       <Header isExtendedNav page={AppRoute.Main} />
       <main className="page-content">
         <div className="container">

@@ -21,6 +21,12 @@ enum AuthStatus {
   Unknown = 'UNKNOWN'
 }
 
+enum FilterValue {
+  All = 'all',
+  Any = 'any'
+}
+
+
 enum NameSpace {
   App = 'APP',
   Booking = 'BOOKING',
@@ -42,6 +48,7 @@ export {
   APIRoute,
   AppRoute,
   AuthStatus,
+  FilterValue,
   NameSpace,
   LoadingDataStatus,
 };

@@ -1,3 +1,5 @@
+import { Helmet } from 'react-helmet-async';
+
 import { Header } from '../../components/header/header';
 import { Map } from '../../components/map/map';
 import { AppRoute } from '../../consts';
@@ -5,6 +7,9 @@ import { AppRoute } from '../../consts';
 function ContactsPage(): JSX.Element {
   return (
     <>
+      <Helmet>
+        <title>{'Контакты - Escape Room'}</title>
+      </Helmet>
       <Header page={AppRoute.Contacts} />
       <main className="page-content decorated-page">
         <div className="decorated-page__decor" aria-hidden="true">
@@ -47,7 +52,7 @@ function ContactsPage(): JSX.Element {
             <div className="contacts__map">
               <div className="map" >
                 <div className="map__container">
-                  <Map page='contacts'/>
+                  <Map page='contacts' />
                 </div>
               </div>
             </div>

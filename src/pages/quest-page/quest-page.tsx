@@ -11,6 +11,7 @@ import { fetchSelectedQuestAction } from '../../store/api-actions/api-actions';
 import { Header } from '../../components/header/header';
 import ErrorPage from '../error-page/error-page';
 import { Preloader } from '../../components/preloader/preloader';
+import { Helmet } from 'react-helmet-async';
 
 function QuestPage(): JSX.Element {
   const hasError = useAppSelector(getHasError);
@@ -28,13 +29,16 @@ function QuestPage(): JSX.Element {
 
 
   if (hasError) {
-    return <ErrorPage page='quest'/>;
+    return <ErrorPage page='quest' />;
   }
   if (isLoading) {
     return <Preloader />;
   }
   return (
     <>
+      <Helmet>
+        <title>{'Квест - Escape Room'}</title>
+      </Helmet>
       <Header page={AppRoute.Quest} />
       {selectedQuest &&
         <main className="decorated-page quest-page">
