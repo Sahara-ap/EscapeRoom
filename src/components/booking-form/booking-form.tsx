@@ -181,10 +181,10 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
           <label className="custom-input__label" htmlFor="tel">Контактный телефон</label>
           <input
             {...register('phone', {
-              required: 'Необходимо заполнить в формате 00000000',
+              required: 'Необходимо заполнить в формате 89000000000',
               pattern: {
                 value: /[0-9]{10,}/,
-                message: 'только цифры'
+                message: 'только цифры не меньше десяти'
               }
             })}
             type="tel"
