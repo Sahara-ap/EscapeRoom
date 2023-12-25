@@ -11,6 +11,7 @@ import { convertTime } from '../../utils';
 import { AppRoute, LoadingDataStatus } from '../../consts';
 
 import { TBookingData } from '../../types/types';
+import { setBookingSendingStatus } from '../../store/booking-form/booking-form-slice';
 
 type TBookingFormProps = {
   questLocations: TBookingData[];
@@ -88,12 +89,15 @@ function BookingForm({ questLocations, placeId }: TBookingFormProps): JSX.Elemen
         setWithChildren(false);
 
         navigate(AppRoute.MyQuests);
+        dispatch(setBookingSendingStatus(LoadingDataStatus.Unsent));
         break;
       case LoadingDataStatus.Error:
         dispatch(setError('Данные не отправлены, попробуйте снова'));
         dispatch(clearErrorAction());
+
     }
 
+    // return (() => dispatch(setBookingSendingStatus(LoadingDataStatus.Unsent)))
   }, [sendingStatus, dispatch, navigate]);
 
 

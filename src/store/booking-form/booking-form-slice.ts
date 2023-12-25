@@ -20,6 +20,9 @@ const bookingFormSlice = createSlice({
   reducers: {
     setPlaceId: (state, action: PayloadAction<TBookingData['id']>) => {
       state.placeId = action.payload;
+    },
+    setBookingSendingStatus: (state, action: PayloadAction<LoadingDataStatus>) => {
+      state.bookingSendingStatus = action.payload;
     }
   },
   extraReducers(builder) {
@@ -37,9 +40,10 @@ const bookingFormSlice = createSlice({
   }
 });
 
-const {setPlaceId} = bookingFormSlice.actions;
+const {setPlaceId, setBookingSendingStatus} = bookingFormSlice.actions;
 
 export {
   bookingFormSlice,
   setPlaceId,
+  setBookingSendingStatus,
 };
