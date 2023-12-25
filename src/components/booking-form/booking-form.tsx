@@ -15,6 +15,8 @@ import { setBookingSendingStatus } from '../../store/booking-form/booking-form-s
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 
 type FormInputs = {
+  date: string;
+  time: string;
   name: string;
   phone: string;
   contactPerson: string;
@@ -43,63 +45,63 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
   const tomorrowSlots = questLocations.find((questLocation) => questLocation.id === placeId)?.slots.tomorrow ?? defaultTomorrowSlots;
 
   const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [contactPerson, setContactPerson] = useState('');
-  const [phone, setPhone] = useState('');
-  const [peopleCount, setPeopleCount] = useState(0);
-  const [withChildren, setWithChildren] = useState(true);
+  // const [time, setTime] = useState('');
+  // const [contactPerson, setContactPerson] = useState('');
+  // const [phone, setPhone] = useState('');
+  // const [peopleCount, setPeopleCount] = useState(0);
+  // const [withChildren, setWithChildren] = useState(true);
 
 
   const { id: questId } = useParams();
-  const body = {
-    date,
-    time,
-    contactPerson,
-    phone,
-    withChildren,
-    peopleCount,
-    placeId
-  };
+  // const body = {
+  //   date,
+  //   time,
+  //   contactPerson,
+  //   phone,
+  //   withChildren,
+  //   peopleCount,
+  //   placeId
+  // };
 
 
   function handleSlotChange(event: ChangeEvent<HTMLInputElement>) {
     setDate(String(event.target.dataset.date));
-    setTime(event.target.value);
+    // setTime(event.target.value);
   }
-  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
-    setContactPerson(event.target.value);
-  }
-  function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
-    setPhone(event.target.value);
-  }
-  function handlePeopleCountChange(event: ChangeEvent<HTMLInputElement>) {
-    setPeopleCount(Number(event.target.value));
-    console.log(typeof event.target.value)
-  }
-  function handleHasChildrenChange(event: ChangeEvent<HTMLInputElement>) {
-    setWithChildren(event.target.checked);
-  }
+  // function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+  //   setContactPerson(event.target.value);
+  // }
+  // function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
+  //   setPhone(event.target.value);
+  // }
+  // function handlePeopleCountChange(event: ChangeEvent<HTMLInputElement>) {
+  //   setPeopleCount(Number(event.target.value));
+  //   console.log(typeof event.target.value)
+  // }
+  // function handleHasChildrenChange(event: ChangeEvent<HTMLInputElement>) {
+  //   setWithChildren(event.target.checked);
+  // }
 
-  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (questId) {
-      dispatch(sendBookingData({ questId, body }));
-    }
-  }
+  // function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+  //   event.preventDefault();
+  //   if (questId) {
+  //     dispatch(sendBookingData({ questId, body }));
+  //   }
+  // }
 
-  useEffect(() => {
-    setTime('');
-  }, [placeId]);
+  // useEffect(() => {
+  //   setTime('');
+  // }, [placeId]);
 
   useEffect(() => {
     switch (sendingStatus) {
       case LoadingDataStatus.Success:
-        setDate('');
-        setTime('');
-        setContactPerson('');
-        setPhone('');
-        setPeopleCount(0);
-        setWithChildren(false);
+        // setDate('');
+        // setTime('');
+        // setContactPerson('');
+        // setPhone('');
+        // setPeopleCount(0);
+        // setWithChildren(false);
 
         navigate(AppRoute.MyQuests);
         dispatch(setBookingSendingStatus(LoadingDataStatus.Unsent));
@@ -112,14 +114,11 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
   }, [sendingStatus, dispatch, navigate]);
 
 
-
-
-
-
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty, isValid },
+    reset,
+    formState: { errors, isSubmitting, isValid },
     resetField,
   } = useForm<FormInputs>({
     mode: 'onBlur'
@@ -127,20 +126,21 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
 
 
   const submit: SubmitHandler<FormInputs> = (formData, event) => {
-    console.log(formData);
-    console.log(event);
     event?.preventDefault();
     const body = {
-
+      date,
+      time: formData.time,
+      contactPerson: formData.contactPerson,
+      phone: formData.phone,
+      withChildren: formData.withChildren,
+      peopleCount: formData.peopleCount,
+      placeId
+    };
+    if (questId) {
+      dispatch(sendBookingData({ questId, body }));
     }
-    // if (questId) {
-    //   dispatch(sendBookingData({ questId, body }));
-    // }
-  }
-  const error: SubmitErrorHandler<FormInputs> = (errorData) => {
-    console.log(errorData);
-
-  }
+    reset();
+  };
 
   const [minPersons, maxPersons] = selectedQuest.peopleMinMax;
 
@@ -155,7 +155,6 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
       action="https://echo.htmlacademy.ru/"
       method="post"
       onSubmit={(event) => void handleSubmit(submit)(event)}
-    // onSubmit={void handleSubmit(submit)}
 
     >
       <fieldset className="booking-form__section">
@@ -166,14 +165,11 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             {todaySlots.map((item) => (
               <label key={item.time} className="custom-radio booking-form__date">
                 <input
-                  {...register('date', { required: 'Обязательное поле' })}
+                  {...register('time', { required: 'Обязательное поле' })}
                   type="radio"
                   id={`today${convertTime(item.time)}`}
                   value={item.time}
                   data-date='today'
-                  // name="date"
-                  // required
-                  // checked={(item.time === time) && (date === 'today')}
                   disabled={!item.isAvailable}
                   onChange={handleSlotChange}
                 />
@@ -195,14 +191,11 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             {tomorrowSlots.map((item) => (
               <label key={item.time} className="custom-radio booking-form__date">
                 <input
-                  {...register('date', { required: 'Обязательное поле' })}
+                  {...register('time', { required: 'Обязательное поле' })}
                   type="radio"
                   id={`tomorrow${convertTime(item.time)}`}
                   value={item.time}
                   data-date='tomorrow'
-                  // name="date"
-                  // required
-                  // checked={(item.time === time) && (date === 'tomorrow')}
                   disabled={!item.isAvailable}
                   onChange={handleSlotChange}
                 />
@@ -218,14 +211,15 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="name">Ваше имя</label>
           <input
-            {...register('contactPerson', { required: 'Необходимо заполнить' })}
+            {...register('contactPerson', {
+              required: 'Необходимо заполнить',
+              pattern: /[А-Яа-яЁёA-Za-z'\- ]{1,}/
+            })
+            }
             type="text"
             id="name"
-            // name="name"
             placeholder="Имя"
-            // required
-            pattern="[А-Яа-яЁёA-Za-z'\- ]{1,}"
-            onChange={handleNameChange}
+          // pattern="[А-Яа-яЁёA-Za-z'\- ]{1,}"
           />
           {errors.contactPerson ? <p style={{ color: 'aqua' }}>{errors.contactPerson.message}</p> : null}
         </div>
@@ -236,11 +230,8 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             {...register('phone', { required: 'Необходимо заполнить в формате 00000000' })}
             type="tel"
             id="tel"
-            // name="tel"
             placeholder="Телефон"
-            // required
             pattern="[0-9]{10,}"
-            onChange={handlePhoneChange}
           />
           {errors.phone ? <p style={{ color: 'aqua' }}>{errors.phone.message}</p> : null}
         </div>
@@ -262,10 +253,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             })}
             type="number"
             id="person"
-            // name="person"
             placeholder={`Количество участников от ${minPersons} до ${maxPersons}`}
-            // required
-            onChange={handlePeopleCountChange}
           />
           {errors.peopleCount ? <p style={{ color: 'aqua' }}>{errors.peopleCount.message}</p> : null}
         </div>
@@ -275,9 +263,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             {...register('withChildren')}
             type="checkbox"
             id="children"
-            // name="children"
             defaultChecked
-            onChange={handleHasChildrenChange}
           />
           <span className="custom-checkbox__icon" >
             <svg width="20" height="17" aria-hidden="true">
@@ -291,19 +277,17 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
       <button
         className="btn btn--accent btn--cta booking-form__submit"
         type="submit"
-        disabled={isSubmitting || !isDirty || !isValid}
+        disabled={isSubmitting || !isValid}
       >
         Забронировать
       </button>
 
       <label className="custom-checkbox booking-form__checkbox booking-form__checkbox--agreement">
         <input
-          {...register('user-agreement', { required: 'Обязательное поле', shouldUnregister: true })}
-          // {...register('agreement', { required: 'Обязательное поле' })}
+          {...register('user-agreement', { required: 'Обязательное поле' })}
           type="checkbox"
           id="id-order-agreement"
           name="user-agreement"
-        // required
         />
         <span className="custom-checkbox__icon" >
           <svg width="20" height="17" aria-hidden="true">

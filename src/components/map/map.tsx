@@ -84,7 +84,7 @@ function Map({ page, places }: TMapProps) {
       {page === 'booking' && places &&
         places.map((place) => (
           <Marker
-            key={window.crypto.randomUUID()}
+            key={place.id}
             position={place.location.coords}
             eventHandlers={{
               click: () => handleMarkerClick(place.id, place.location.coords)
