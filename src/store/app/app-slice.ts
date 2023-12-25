@@ -19,7 +19,8 @@ const appSlice = createSlice({
   reducers: {
     setError: (state, action: PayloadAction<null | string>) => {
       state.error = action.payload;
-    }
+    },
+
   },
   extraReducers(builder) {
     builder
@@ -61,5 +62,5 @@ const { setError } = appSlice.actions;
 export {
   appSlice,
 
-  setError
+  setError,
 };

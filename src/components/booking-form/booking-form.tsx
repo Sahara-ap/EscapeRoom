@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
@@ -12,7 +12,7 @@ import { AppRoute, LoadingDataStatus } from '../../consts';
 
 import { TBookingData, TSelectedCard } from '../../types/types';
 import { setBookingSendingStatus } from '../../store/booking-form/booking-form-slice';
-import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 type FormInputs = {
   date: string;
@@ -45,74 +45,10 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
   const tomorrowSlots = questLocations.find((questLocation) => questLocation.id === placeId)?.slots.tomorrow ?? defaultTomorrowSlots;
 
   const [date, setDate] = useState('');
-  // const [time, setTime] = useState('');
-  // const [contactPerson, setContactPerson] = useState('');
-  // const [phone, setPhone] = useState('');
-  // const [peopleCount, setPeopleCount] = useState(0);
-  // const [withChildren, setWithChildren] = useState(true);
-
-
-  const { id: questId } = useParams();
-  // const body = {
-  //   date,
-  //   time,
-  //   contactPerson,
-  //   phone,
-  //   withChildren,
-  //   peopleCount,
-  //   placeId
-  // };
-
 
   function handleSlotChange(event: ChangeEvent<HTMLInputElement>) {
     setDate(String(event.target.dataset.date));
-    // setTime(event.target.value);
   }
-  // function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
-  //   setContactPerson(event.target.value);
-  // }
-  // function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
-  //   setPhone(event.target.value);
-  // }
-  // function handlePeopleCountChange(event: ChangeEvent<HTMLInputElement>) {
-  //   setPeopleCount(Number(event.target.value));
-  //   console.log(typeof event.target.value)
-  // }
-  // function handleHasChildrenChange(event: ChangeEvent<HTMLInputElement>) {
-  //   setWithChildren(event.target.checked);
-  // }
-
-  // function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
-  //   event.preventDefault();
-  //   if (questId) {
-  //     dispatch(sendBookingData({ questId, body }));
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   setTime('');
-  // }, [placeId]);
-
-  useEffect(() => {
-    switch (sendingStatus) {
-      case LoadingDataStatus.Success:
-        // setDate('');
-        // setTime('');
-        // setContactPerson('');
-        // setPhone('');
-        // setPeopleCount(0);
-        // setWithChildren(false);
-
-        navigate(AppRoute.MyQuests);
-        dispatch(setBookingSendingStatus(LoadingDataStatus.Unsent));
-        break;
-      case LoadingDataStatus.Error:
-        dispatch(setError('Данные не отправлены, попробуйте снова'));
-        dispatch(clearErrorAction());
-
-    }
-  }, [sendingStatus, dispatch, navigate]);
-
 
   const {
     register,
@@ -124,9 +60,25 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
     mode: 'onBlur'
   });
 
+  useEffect(() => {
+    switch (sendingStatus) {
+      case LoadingDataStatus.Success:
+        dispatch(setBookingSendingStatus(LoadingDataStatus.Unsent));
+        reset();
+        navigate(AppRoute.MyQuests);
+        break;
+      case LoadingDataStatus.Error:
+        dispatch(setError('Данные не отправлены, попробуйте снова'));
+        dispatch(clearErrorAction());
+        dispatch(setBookingSendingStatus(LoadingDataStatus.Unsent));
 
+    }
+  }, [sendingStatus, dispatch, navigate, reset]);
+
+  const { id: questId } = useParams();
   const submit: SubmitHandler<FormInputs> = (formData, event) => {
     event?.preventDefault();
+
     const body = {
       date,
       time: formData.time,
@@ -139,14 +91,13 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
     if (questId) {
       dispatch(sendBookingData({ questId, body }));
     }
-    reset();
   };
 
   const [minPersons, maxPersons] = selectedQuest.peopleMinMax;
 
 
   useEffect(() => {
-    resetField('date')
+    resetField('date');
   }, [placeId, resetField]);
 
   return (
@@ -165,7 +116,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             {todaySlots.map((item) => (
               <label key={item.time} className="custom-radio booking-form__date">
                 <input
-                  {...register('time', { required: 'Обязательное поле' })}
+                  {...register('time', { required: 'Выберите время' })}
                   type="radio"
                   id={`today${convertTime(item.time)}`}
                   value={item.time}
@@ -191,7 +142,7 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
             {tomorrowSlots.map((item) => (
               <label key={item.time} className="custom-radio booking-form__date">
                 <input
-                  {...register('time', { required: 'Обязательное поле' })}
+                  {...register('time', { required: 'Выберите время' })}
                   type="radio"
                   id={`tomorrow${convertTime(item.time)}`}
                   value={item.time}
@@ -213,13 +164,15 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
           <input
             {...register('contactPerson', {
               required: 'Необходимо заполнить',
-              pattern: /[А-Яа-яЁёA-Za-z'\- ]{1,}/
+              pattern: {
+                value: /[А-Яа-яЁёA-Za-z'\- ]{1,}/,
+                message: 'только буквы тире и пробелы'
+              }
             })
             }
             type="text"
             id="name"
             placeholder="Имя"
-          // pattern="[А-Яа-яЁёA-Za-z'\- ]{1,}"
           />
           {errors.contactPerson ? <p style={{ color: 'aqua' }}>{errors.contactPerson.message}</p> : null}
         </div>
@@ -227,11 +180,16 @@ function BookingForm({ questLocations, selectedQuest, placeId }: TBookingFormPro
         <div className="custom-input booking-form__input">
           <label className="custom-input__label" htmlFor="tel">Контактный телефон</label>
           <input
-            {...register('phone', { required: 'Необходимо заполнить в формате 00000000' })}
+            {...register('phone', {
+              required: 'Необходимо заполнить в формате 00000000',
+              pattern: {
+                value: /[0-9]{10,}/,
+                message: 'только цифры'
+              }
+            })}
             type="tel"
             id="tel"
             placeholder="Телефон"
-            pattern="[0-9]{10,}"
           />
           {errors.phone ? <p style={{ color: 'aqua' }}>{errors.phone.message}</p> : null}
         </div>
