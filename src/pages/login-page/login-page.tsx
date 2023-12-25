@@ -22,14 +22,18 @@ function LoginPage(): JSX.Element {
   const [password, setPassword] = useState('');
   const [checkboxStatus, setCheckboxStatus] = useState(false);
 
-  const pattern = /([a-zA-Z]+[0-9]+)|([0-9]+[a-zA-Z]+)/;
-  const isPattern = pattern.test(password);
+  const patternPassword = /([a-zA-Z]+[0-9]+)|([0-9]+[a-zA-Z]+)/;
+  const isPatternPassword = patternPassword.test(password);
+
+  const patternMail = /[^|\w](\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)/;
+  const isPatternMail = patternMail.test(email);
 
   const isValid = (password.length >= MIN_PASSWORD_LENGTH)
     && (password.length <= MAX_PASSWORD_LENGTH)
     && (email)
     && (checkboxStatus)
-    && isPattern;
+    && isPatternPassword
+    && isPatternMail;
 
 
   function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
