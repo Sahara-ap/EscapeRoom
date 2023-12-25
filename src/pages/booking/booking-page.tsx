@@ -82,7 +82,6 @@ function BookingPage(): JSX.Element {
                     <Map
                       page={'booking'}
                       places={bookingData}
-                      // cb={getPlaceId}
                     />
                   </div>
                 </div>

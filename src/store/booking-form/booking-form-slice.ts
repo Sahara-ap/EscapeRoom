@@ -7,11 +7,13 @@ type TBookingFormSlice = {
   bookingResponse: TBookingQuestResponseInfo | null;
   bookingSendingStatus: LoadingDataStatus;
   placeId: TBookingData['id'];
+  coords: TBookingData['location']['coords'] | [];
 }
 const initialState: TBookingFormSlice = {
   bookingResponse: null,
   bookingSendingStatus: LoadingDataStatus.Unsent,
   placeId: '',
+  coords: []
 };
 
 const bookingFormSlice = createSlice({
@@ -20,6 +22,9 @@ const bookingFormSlice = createSlice({
   reducers: {
     setPlaceId: (state, action: PayloadAction<TBookingData['id']>) => {
       state.placeId = action.payload;
+    },
+    setCoords: (state, action: PayloadAction<TBookingData['location']['coords']>) => {
+      state.coords = action.payload;
     },
     setBookingSendingStatus: (state, action: PayloadAction<LoadingDataStatus>) => {
       state.bookingSendingStatus = action.payload;
@@ -40,10 +45,11 @@ const bookingFormSlice = createSlice({
   }
 });
 
-const {setPlaceId, setBookingSendingStatus} = bookingFormSlice.actions;
+const {setPlaceId, setCoords, setBookingSendingStatus} = bookingFormSlice.actions;
 
 export {
   bookingFormSlice,
+  setCoords,
   setPlaceId,
   setBookingSendingStatus,
 };

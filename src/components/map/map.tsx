@@ -5,8 +5,8 @@ import L from 'leaflet';
 import { TBookingData } from '../../types/types';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
-import { setPlaceId } from '../../store/booking-form/booking-form-slice';
-import { getPlaceId } from '../../store/booking-form/booking-form-selectors';
+import { setCoords, setPlaceId } from '../../store/booking-form/booking-form-slice';
+import { getCoords } from '../../store/booking-form/booking-form-selectors';
 
 
 type TMapProps = {
@@ -15,7 +15,7 @@ type TMapProps = {
 }
 function Map({ page, places }: TMapProps) {
   const dispatch = useAppDispatch();
-  const placeIdStore = useAppSelector(getPlaceId);
+  const coordsStore = useAppSelector(getCoords);
 
   const settings = {
     contacts: {
@@ -45,12 +45,16 @@ function Map({ page, places }: TMapProps) {
   useEffect(() => {
     if (places) {
       const defaultPlaceId = places[0].id;
+      const defaultCoords = places[0].location.coords;
       dispatch(setPlaceId(defaultPlaceId));
+      dispatch(setCoords(defaultCoords));
+
     }
   }, [places, dispatch]);
 
-  function handleMarkerClick(id: TBookingData['id']) {
+  function handleMarkerClick(id: TBookingData['id'], coords: TBookingData['location']['coords']) {
     dispatch(setPlaceId(id));
+    dispatch(setCoords(coords));
   }
 
   return (
@@ -83,16 +87,16 @@ function Map({ page, places }: TMapProps) {
             key={window.crypto.randomUUID()}
             position={place.location.coords}
             eventHandlers={{
-              click: () => handleMarkerClick(place.id)
+              click: () => handleMarkerClick(place.id, place.location.coords)
             }}
             icon={
-              place.id === placeIdStore
+              place.location.coords[0] === coordsStore[0]
                 ? activeIcon
                 : defaultIcon
             }
           >
             <Popup>
-              {place.location.address} <br /> .
+              {place.location.address} <br />
             </Popup>
           </Marker>
         ))}
